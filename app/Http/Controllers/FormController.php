@@ -208,6 +208,15 @@ class FormController extends Controller
         return response(["type" => $this->type, "message" => $this->message, "status" => $this->status]);
     } 
 
+    public function delete_question_subform(Request $request){
+        if($request->id){
+            $find = FormSubQuestion::find($request->id);
+            if($find->delete()){
+                return response(["status" => true]);
+            }
+        }
+    }
+
     public function update_question_subform(Request $request){
         if(!empty($request->title) || !empty($request->align) || !empty($request->question)){
             $q = FormSubQuestion::find($request->id);

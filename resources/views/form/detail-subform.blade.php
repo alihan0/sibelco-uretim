@@ -62,7 +62,7 @@
                             <th>Soru Başlığı</th>
                             <th>Soru</th>
                             
-                            <th>Durum</th>
+                            
                             <th>İşlem</th>
                         </tr>
                         </thead>
@@ -76,13 +76,7 @@
                             <td>{{$item->title}}</td>
                             <td>{{$item->question}}</td>
                             
-                            <td>
-                                @if ($item->status == 0)
-                                    <span class="badge bg-danger text-white">Pasif</span>
-                                @else
-                                <span class="badge bg-success text-white">Aktif</span>
-                                @endif
-                            </td>
+                            
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
