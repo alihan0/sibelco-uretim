@@ -69,7 +69,7 @@
                             </span>
                         </div>
                     </div>
-                    <h4 class="m-0 align-self-center">{{$form->Questions->count()}}</h4>
+                    <h4 class="m-0 align-self-center">#<h4>
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@
                             </span>
                         </div>
                     </div>
-                    <h4 class="m-0 align-self-center">{{$form->Questions->count()}}</h4>
+                    <h4 class="m-0 align-self-center">{{$form->Attachments->count()}}</</h4>
                 </div>
             </div>
         </div>

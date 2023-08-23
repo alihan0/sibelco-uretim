@@ -22,4 +22,8 @@ class Form extends Model
     public function Questions(){
         return $this->hasMany(FormQuestion::class, 'form', 'id');
     }
+
+    public function Attachments(){
+        return $this->hasMany(FormAttach::class, 'form', 'id');
+    }
 }
