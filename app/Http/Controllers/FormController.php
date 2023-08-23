@@ -39,4 +39,20 @@ class FormController extends Controller
     public function all(){
         return view('form.all', ['forms' => Form::all()]);
     }
+
+    public function detail($id){
+        return view('form.detail', ['form' => Form::find($id)]);
+    }
+
+    public function delete(Request $request){
+
+        if($request->id){
+            $find = Form::find($request->id);
+            if($find){
+                if($find->delete()){
+                    return response(["status" => true]);
+                }
+            }
+        }
+    }
 }
