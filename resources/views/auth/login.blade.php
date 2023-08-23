@@ -38,11 +38,13 @@
             axios.post('/auth/login', {username:username, password:password}).then((res) => {
                 toastr[res.data.type](res.data.message);
                 if(res.data.status){
-                    setInterval(function(){
+                    setInterval(() => {
                         window.location.assign('/');
-                    }, 1000)
+                    }, 1000);
+
                 }
             })
         })
     </script>
 @endsection
+

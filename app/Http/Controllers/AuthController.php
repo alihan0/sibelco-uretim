@@ -28,6 +28,6 @@ class AuthController extends Controller
                 $this->message = "Kullanıcı adı ya da şifre hatalı!";
             }
         }
-        return response(["type" => $this->type, "message" => $this->message]);
+        return response(["type" => $this->type, "message" => $this->message, "status" => $this->status]);
     }
 }
