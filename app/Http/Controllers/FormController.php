@@ -182,4 +182,8 @@ class FormController extends Controller
     public function all_subform(){
         return view('form.all-subform', ['forms' => FormSub::all()]);
     }
+
+    public function detail_subform($id){
+        return view('form.detail-subform', ['form' => FormSub::find($id)]);
+    }
 }
