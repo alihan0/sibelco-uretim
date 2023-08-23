@@ -178,4 +178,8 @@ class FormController extends Controller
 
         return response(["type" => $this->type, "message" => $this->message, "status" => $this->status, "id" => $id]);
     }
+
+    public function all_subform(){
+        return view('form.all-subform', ['forms' => FormSub::all()]);
+    }
 }

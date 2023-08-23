@@ -32,6 +32,7 @@ Route::controller(FormController::class)->prefix('form')->group(function(){
     Route::get('/new', 'new');
     Route::get('/new/subform', 'new_subform');
     Route::get('/all', 'all');
+    Route::get('/all/subform', 'all_subform');
     Route::get('/detail/{id}', 'detail');
     Route::get('/edit/{id}', 'edit');
     
