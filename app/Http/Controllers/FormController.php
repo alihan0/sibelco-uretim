@@ -105,4 +105,29 @@ class FormController extends Controller
             }
         }
     }
+
+    public function update_question(Request $request){
+
+        if($request->confirm == "on"){
+            $confirm = 1;
+        }else{
+            $confirm = 0;
+        }
+
+        if(!empty($request->title) || !empty($request->align) || !empty($request->question)){
+            $q = FormQuestion::find($request->id);
+            if($q){
+                $q->align = $request->align;
+                $q->title = trim(ucfirst($request->title));
+                $q->confirmation = $confirm;
+                $q->question = trim(ucfirst($request->question));
+                
+                if($q->save()){
+                    return response(["status" => true]);
+                }
+            }
+        }
+
+
+    }
 }

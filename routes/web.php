@@ -40,4 +40,5 @@ Route::controller(FormController::class)->prefix('form')->group(function(){
     Route::post('/add/question', 'add_question');
     Route::post('/set/passive', 'question_passive');
     Route::post('/set/active', 'question_active');
+    Route::post('/update/question', 'update_question');
 });

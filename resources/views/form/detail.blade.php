@@ -154,13 +154,58 @@
                                     @endif
 
                                     <a class="dropdown-item" href="javascript:;">Alt Form Ekle</a>
-                                    <a class="dropdown-item" href="javascript:;">Düzenle</a>
-                                    <a class="dropdown-item" href="javascript:;" onclick="delete({{$item->id}})">Sil</a>
+                                    <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#editQuestionModal{{$item->id}}">Düzenle</a>
+                                    <a class="dropdown-item" href="javascript:;" onclick="deleteQuestion({{$item->id}})">Sil</a>
                                     
                                     </div>
                                   </div>
                             </td>
                         </tr>
+                        <div class="modal fade" id="editQuestionModal{{$item->id}}" tabindex="-1" aria-labelledby="editQuestionModal{{$item->id}}Label" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="editQuestionModal{{$item->id}}Label">Soru Düzenle</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="javascript:;" id="editQuestionForm{{$item->id}}">
+                                        <input class="form-control" type="hidden" value="{{$item->id}}" id="id" name="id">
+                                        <div class="form-group row">
+                                            <label for="align" class="col-md-4 col-form-label">Soru Sırası:</label>
+                                            <div class="col-md-8">
+                                                <input class="form-control" type="text" value="{{$item->align}}" id="align" name="align">
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="title" class="col-md-4 col-form-label">Soru Başlığı:</label>
+                                            <div class="col-md-8">
+                                                <input class="form-control" type="text" value="{{$item->title}}" id="title" name="title">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="question" class="col-md-4 col-form-label">Sorunuz:</label>
+                                            <div class="col-md-8">
+                                                <input class="form-control" type="text" value="{{$item->question}}" id="question" name="question">
+                                            </div>
+                                        </div>
+                                        <div class="custom-control custom-checkbox mb-2">
+                                            <input type="checkbox" class="custom-control-input" id="confirm" name="confirm" {{$item->confirmation == 1 ? "checked":""}}>
+                                            <label class="custom-control-label" for="confirm">Bu soru yönetici onayı gerektirsin</label>
+                                        </div>
+                                        
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
+                                  <button type="button" class="btn btn-primary" onclick="editQuestion({{$item->id}})">Kaydet</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         @endforeach
                         
                         </tbody>
@@ -288,9 +333,18 @@
             });
         }
         // SORUYU SİL
-        // SORUYU AKTİF YAP
-        function makeActive(id){
+        function deleteQuestion(id){
             axios.post('/form/delete/question', {id:id}).then((res) => {
+                if(res.data.status){
+                    window.location.reload();
+                }
+            });
+        }
+        // SORUYU DÜZENLE
+        function editQuestion(id){
+            var formData = $("#editQuestionForm"+id).serialize();
+
+            axios.post('/form/update/question', formData).then((res) =>{
                 if(res.data.status){
                     window.location.reload();
                 }
