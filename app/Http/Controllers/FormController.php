@@ -45,6 +45,29 @@ class FormController extends Controller
         return view('form.detail', ['form' => Form::find($id)]);
     }
 
+    public function edit($id){
+        return view('form.edit', ["form" => Form::find($id)]);
+    }
+
+    public function update(Request $request){
+        if(empty($request->title)){
+            $this->message = "Bir başlık girmek zorundasınız.";
+        }else{
+            $form = Form::find($request->id);
+            $form->title = trim(ucfirst($request->title));
+            $form->detail =  trim(ucfirst($request->detail));
+            $form->to_emails = trim($request->email);
+
+            if($form->save()){
+                $this->type = "success";
+                $this->message = "Form başarıyla güncellendi";
+                $this->status = true;
+            }
+        }
+
+        return response(["type" => $this->type, "message" => $this->message, "status" => $this->status, "id" => $request->id]);
+    }
+
     public function delete(Request $request){
 
         if($request->id){
