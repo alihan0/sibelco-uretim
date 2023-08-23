@@ -77,4 +77,23 @@ class FormController extends Controller
         }
         return response(["type" => $this->type, "message" => $this->message, "status" => $this->status]);
     } 
+
+    public function question_passive(Request $request){
+        if($request->id){
+            $find = FormQuestion::find($request->id);
+            $find->status = 0;
+            if($find->save()){
+                return response(["status" => true]);
+            }
+        }
+    }
+    public function question_active(Request $request){
+        if($request->id){
+            $find = FormQuestion::find($request->id);
+            $find->status = 1;
+            if($find->save()){
+                return response(["status" => true]);
+            }
+        }
+    }
 }

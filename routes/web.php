@@ -37,4 +37,5 @@ Route::controller(FormController::class)->prefix('form')->group(function(){
     Route::post('/update', 'update');
     Route::post('/delete', 'delete');
     Route::post('/add/question', 'add_question');
+    Route::post('/do/passive', 'question_passive');
 });
