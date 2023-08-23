@@ -29,24 +29,6 @@
             <div class="card">
                 <div class="card-body">
 
-                    
-                    
-
-                    <div class="form-group row">
-                        <label for="form" class="col-md-4 col-form-label">Form Başlığı:</label>
-                        <div class="col-md-4">
-                            <select class="form-control" id="form">
-                                <option value="0">Seçin</option>
-                                @foreach ($forms as $form)
-                                    <option value="{{$form->id}}">{{$form->title}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        
-                    </div>
-
-                    
-
                     <div class="form-group row">
                         <label for="title" class="col-md-4 col-form-label">Form Başlığı:</label>
                         <div class="col-md-4">
@@ -78,9 +60,8 @@
     <script>
         $("#save").on("click", function(){
             var title = $("#title").val();
-            var form = $("#form").val();
 
-            axios.post('/form/save/subform', {title:title, form:form}).then((res) => {
+            axios.post('/form/save/subform', {title:title}).then((res) => {
                 toastr[res.data.type](res.data.message);
                 if(res.data.status){
                     setInterval(() => {

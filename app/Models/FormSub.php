@@ -16,4 +16,8 @@ class FormSub extends Model
         'title',
         'status'
     ];
+
+    public function Questions(){
+        return $this->hasMany(FormSubQuestion::class, 'id', 'subform');
+    }
 }

@@ -156,7 +156,7 @@ class FormController extends Controller
     }
 
     public function new_subform(){
-        return view('form.new-subform', ["forms" => Form::all()]);
+        return view('form.new-subform');
     }
     public function save_subform(Request $request){
         $id = 0;

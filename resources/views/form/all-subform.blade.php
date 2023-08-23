@@ -33,7 +33,7 @@
 
                     <h4 class="header-title">Form Listesi</h4>
                     <p class="card-title-desc">
-                        Kullanıcılarınızın doldurabileceği formlar aşağıdaki listededir. Yeni bir form eklemek için menüyü kullanın. Forma soru eklemek ya da detaylarını görüntülemek için aksiyon menüsünü kullanın.
+                        Kullanıcılarınızın doldurabileceği alt formlar aşağıdaki listededir. Yeni bir alt form eklemek için menüyü kullanın. Alt Forma soru eklemek ya da detaylarını görüntülemek için aksiyon menüsünü kullanın. Alt formlar, ana formların sorularına eklenmelidir. Eklenmeyen formlar kullanıcıya gösterilmez.
                     </p>
 
                     <table id="datatable" class="datatable table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -41,7 +41,6 @@
                         <tr>
                             <th>ID</th>
                             <th>Form Başlığı</th>
-                            <th>Form Açıklaması</th>
                             <th>Soru Sayısı</th>
                             <th>Durum</th>
                             <th>İşlem</th>
@@ -54,8 +53,8 @@
                         <tr>
                             <td>{{$form->id}}</td>
                             <td>{{$form->title}}</td>
-                            <td>{{$form->detail ?? "-"}}</td>
-                            <td></td>
+                            <td>{{$form->Questions->count()}}</td>
+                            
                             <td>
                                 @if ($form->status == 0)
                                     <span class="badge bg-danger text-white">Pasif</span>
@@ -69,8 +68,8 @@
                                       İşlem
                                     </button>
                                     <div class="dropdown-menu">
-                                      <a class="dropdown-item" href="/form/detail/{{$form->id}}">Görüntüle</a>
-                                      <a class="dropdown-item" href="/form/edit/{{$form->id}}">Düzenle</a>
+                                      <a class="dropdown-item" href="/form/detail/subform/{{$form->id}}">Görüntüle</a>
+                                      <a class="dropdown-item" href="/form/edit/subform/{{$form->id}}">Düzenle</a>
                                     </div>
                                   </div>
                             </td>

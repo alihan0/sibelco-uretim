@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('form_subforms', function (Blueprint $table) {
             $table->id();
-            $table->integer('form');
             $table->string('title');
             $table->integer('status');
             $table->timestamps();
