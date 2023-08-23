@@ -63,7 +63,7 @@
                     <div data-simplebar style="max-height: 230px;">
                     
                         @foreach ($notifications as $notification)
-                        <a href="javascript:;" class="text-reset notification-item">
+                        <a href="javascript:;" class="text-reset notification-item" id="{{$notification->id}}">
                             <div class="media">
                                 
                                 <div class="media-body">

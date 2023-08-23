@@ -388,5 +388,15 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
         @yield('script')
+        <script>
+            $(".notification-item").on("click", function(){
+                var id = $(this).attr("id");
+                axios.post('/read-notification', {id:id}).then((res) => {
+                    if(res.data.status){
+                        window.location.reload();
+                    }
+                });
+            });
+        </script>
     </body>
 </html>
