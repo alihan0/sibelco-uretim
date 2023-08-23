@@ -96,4 +96,13 @@ class FormController extends Controller
             }
         }
     }
+
+    public function delete_question(Request $request){
+        if($request->id){
+            $find = FormQuestion::find($request->id);
+            if($find->delete()){
+                return response(["status" => true]);
+            }
+        }
+    }
 }

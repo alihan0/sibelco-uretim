@@ -148,14 +148,14 @@
                                     <div class="dropdown-menu">
                                       
                                     @if ($item->status == 0)
-                                    <a class="dropdown-item" href="javascript:;" onclick="makePassive({{$form->id}})">Aktif Yap</a>
+                                    <a class="dropdown-item" href="javascript:;" onclick="makeActive({{$item->id}})">Aktif Yap</a>
                                     @else
                                     <a class="dropdown-item" href="javascript:;" onclick="makePassive({{$item->id}})">Pasif Yap</a>
                                     @endif
 
                                     <a class="dropdown-item" href="javascript:;">Alt Form Ekle</a>
                                     <a class="dropdown-item" href="javascript:;">Düzenle</a>
-                                    <a class="dropdown-item" href="javascript:;">Sil</a>
+                                    <a class="dropdown-item" href="javascript:;" onclick="delete({{$item->id}})">Sil</a>
                                     
                                     </div>
                                   </div>
@@ -274,6 +274,23 @@
         // SORUYU PASİF YAP
         function makePassive(id){
             axios.post('/form/do/passive', {id:id}).then((res) => {
+                if(res.data.status){
+                    window.location.reload();
+                }
+            });
+        }
+        // SORUYU AKTİF YAP
+        function makeActive(id){
+            axios.post('/form/do/active', {id:id}).then((res) => {
+                if(res.data.status){
+                    window.location.reload();
+                }
+            });
+        }
+        // SORUYU SİL
+        // SORUYU AKTİF YAP
+        function makeActive(id){
+            axios.post('/form/delete/question', {id:id}).then((res) => {
                 if(res.data.status){
                     window.location.reload();
                 }
