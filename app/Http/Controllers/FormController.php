@@ -207,4 +207,19 @@ class FormController extends Controller
         }
         return response(["type" => $this->type, "message" => $this->message, "status" => $this->status]);
     } 
+
+    public function update_question_subform(Request $request){
+        if(!empty($request->title) || !empty($request->align) || !empty($request->question)){
+            $q = FormSubQuestion::find($request->id);
+            if($q){
+                $q->align = $request->align;
+                $q->title = trim(ucfirst($request->title));
+                $q->question = trim(ucfirst($request->question));
+                
+                if($q->save()){
+                    return response(["status" => true]);
+                }
+            }
+        }
+    }
 }

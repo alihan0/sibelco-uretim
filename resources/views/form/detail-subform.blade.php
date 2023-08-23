@@ -89,14 +89,6 @@
                                       İşlem
                                     </button>
                                     <div class="dropdown-menu">
-                                      
-                                    @if ($item->status == 0)
-                                    <a class="dropdown-item" href="javascript:;" onclick="makeActive({{$item->id}})">Aktif Yap</a>
-                                    @else
-                                    <a class="dropdown-item" href="javascript:;" onclick="makePassive({{$item->id}})">Pasif Yap</a>
-                                    @endif
-
-                                    <a class="dropdown-item" href="javascript:;">Alt Form Ekle</a>
                                     <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#editQuestionModal{{$item->id}}">Düzenle</a>
                                     <a class="dropdown-item" href="javascript:;" onclick="deleteQuestion({{$item->id}})">Sil</a>
                                     
@@ -135,10 +127,7 @@
                                                 <input class="form-control" type="text" value="{{$item->question}}" id="question" name="question">
                                             </div>
                                         </div>
-                                        <div class="custom-control custom-checkbox mb-2">
-                                            <input type="checkbox" class="custom-control-input" id="confirm" name="confirm" {{$item->confirmation == 1 ? "checked":""}}>
-                                            <label class="custom-control-label" for="confirm">Bu soru yönetici onayı gerektirsin</label>
-                                        </div>
+                                        
                                         
                                     </form>
                                 </div>
@@ -250,25 +239,10 @@
                 }
             });
         }
-        // SORUYU PASİF YAP
-        function makePassive(id){
-            axios.post('/form/set/passive', {id:id}).then((res) => {
-                if(res.data.status){
-                    window.location.reload();
-                }
-            });
-        }
-        // SORUYU AKTİF YAP
-        function makeActive(id){
-            axios.post('/form/set/active', {id:id}).then((res) => {
-                if(res.data.status){
-                    window.location.reload();
-                }
-            });
-        }
+       
         // SORUYU SİL
         function deleteQuestion(id){
-            axios.post('/form/delete/question', {id:id}).then((res) => {
+            axios.post('/form/delete/subform/question', {id:id}).then((res) => {
                 if(res.data.status){
                     window.location.reload();
                 }
@@ -278,7 +252,7 @@
         function editQuestion(id){
             var formData = $("#editQuestionForm"+id).serialize();
 
-            axios.post('/form/update/question', formData).then((res) =>{
+            axios.post('/form/update/subform/question', formData).then((res) =>{
                 if(res.data.status){
                     window.location.reload();
                 }
