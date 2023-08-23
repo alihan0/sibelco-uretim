@@ -11,6 +11,14 @@ class FormSubQuestion extends Model
 
     protected $table = "form_subform_questions";
 
+    protected $fillable = [
+        'subform',
+        'align',
+        'title',
+        'question',
+        'status'
+    ];
+
     public function Form(){
         return $this->belongsTo(Form::class, 'form', 'id');
     }

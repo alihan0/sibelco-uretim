@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Form;
 use App\Models\FormQuestion;
 use App\Models\FormSub;
+use App\Models\FormSubQuestion;
 use Illuminate\Http\Request;
 
 class FormController extends Controller
@@ -186,4 +187,24 @@ class FormController extends Controller
     public function detail_subform($id){
         return view('form.detail-subform', ['form' => FormSub::find($id)]);
     }
+
+    public function add_question_subform(Request $request){
+        if(empty($request->title) || empty($request->align) || empty($request->question)){
+            $this->message = "Boş alan bırakamazsınız!";
+        }else{
+           $save = FormSubQuestion::create([
+            "subform" => $request->form,
+            "align" => $request->align,
+            "title" => trim(ucfirst($request->title)),
+            "question" => trim(ucfirst($request->question)),
+            "status" => 1
+           ]);
+           if($save){
+            $this->status = true;
+           }else{
+            $this->message = "SYSTEM_ERROR";
+           }
+        }
+        return response(["type" => $this->type, "message" => $this->message, "status" => $this->status]);
+    } 
 }
