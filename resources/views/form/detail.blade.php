@@ -153,7 +153,7 @@
                                     <a class="dropdown-item" href="javascript:;" onclick="makePassive({{$item->id}})">Pasif Yap</a>
                                     @endif
 
-                                    <a class="dropdown-item" href="javascript:;">Alt Form Ekle</a>
+                                    <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#attach{{$item->id}}">Alt Form Ekle</a>
                                     <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#editQuestionModal{{$item->id}}">Düzenle</a>
                                     <a class="dropdown-item" href="javascript:;" onclick="deleteQuestion({{$item->id}})">Sil</a>
                                     
@@ -202,6 +202,43 @@
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
                                   <button type="button" class="btn btn-primary" onclick="editQuestion({{$item->id}})">Kaydet</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="modal fade" id="attach{{$item->id}}" tabindex="-1" aria-labelledby="attach{{$item->id}}Label" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="attach{{$item->id}}Label">Alt Form Ekle</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="javascript:;" id="attachForm{{$item->id}}">
+                                        <input class="form-control" type="hidden" value="{{$item->id}}" id="id" name="id">
+                                        <input class="form-control" type="hidden" value="{{$form->id}}" id="form" name="form">
+
+                                        <div class="form-group row">
+                                            <label for="subform" class="col-md-4 col-form-label">Alt Form Seçin:</label>
+                                            <div class="col-md-8">
+                                                
+                                                <select name="subform" id="subform" class="form-control">
+                                                    <option value="0">Seçin</option>
+                                                    @foreach ($subforms as $s)
+                                                        <option value="{{$s->id}}">{{$s->title}}</option>
+                                                    @endforeach
+                                                </select>
+                                                
+                                            </div>
+                                        </div>  
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
+                                  <button type="button" class="btn btn-primary" onclick="attach({{$item->id}})">Kaydet</button>
                                 </div>
                               </div>
                             </div>
@@ -345,6 +382,15 @@
             var formData = $("#editQuestionForm"+id).serialize();
 
             axios.post('/form/update/question', formData).then((res) =>{
+                if(res.data.status){
+                    window.location.reload();
+                }
+            });
+        }
+        // SORUYA ALT FORM EKLE
+        function attach(id){
+            var formData = $("#attachForm"+id).serialize();
+            axios.post('/form/attach', formData).then((res) => {
                 if(res.data.status){
                     window.location.reload();
                 }

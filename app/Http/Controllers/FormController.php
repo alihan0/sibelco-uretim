@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Form;
+use App\Models\FormAttach;
 use App\Models\FormQuestion;
 use App\Models\FormSub;
 use App\Models\FormSubQuestion;
@@ -44,7 +45,7 @@ class FormController extends Controller
     }
 
     public function detail($id){
-        return view('form.detail', ['form' => Form::find($id)]);
+        return view('form.detail', ['form' => Form::find($id), 'subforms' => FormSub::all()]);
     }
 
     public function edit($id){
@@ -230,5 +231,23 @@ class FormController extends Controller
                 }
             }
         }
+    }
+
+    public function attach(Request $request){
+
+        $f1 = Form::find($request->form);
+        $f2 = FormSub::find($request->subform);
+
+        if($f1 && $f2){
+            $attach = FormAttach::create([
+                "form" => $request->form,
+                "subform" => $request->subform,
+                "question" => $request->id
+            ]);
+            if($attach){
+                return response(['status' => true]);
+            }
+        }
+        
     }
 }
