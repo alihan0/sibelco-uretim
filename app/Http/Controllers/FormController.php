@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Form;
 use App\Models\FormQuestion;
+use App\Models\FormSub;
 use Illuminate\Http\Request;
 
 class FormController extends Controller
@@ -152,5 +153,29 @@ class FormController extends Controller
         }
 
 
+    }
+
+    public function new_subform(){
+        return view('form.new-subform', ["forms" => Form::all()]);
+    }
+    public function save_subform(Request $request){
+        $id = 0;
+        if(empty($request->title)){
+            $this->message = "Bir başlık girmek zorundasınız.";
+        }else{
+            $form = FormSub::create([
+                "title" => trim(ucfirst($request->title)),
+                "form" => $request->form,
+                "status" => 1
+            ]);
+            if($form){
+                $this->type = "success";
+                $this->message = "Alt Form başarıyla oluşturuldu";
+                $this->status = true;
+                $id = $form->id;
+            }
+        }
+
+        return response(["type" => $this->type, "message" => $this->message, "status" => $this->status, "id" => $id]);
     }
 }

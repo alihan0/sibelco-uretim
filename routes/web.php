@@ -30,10 +30,13 @@ Route::controller(AuthController::class)->prefix('auth')->group(function(){
 
 Route::controller(FormController::class)->prefix('form')->group(function(){
     Route::get('/new', 'new');
+    Route::get('/new/subform', 'new_subform');
     Route::get('/all', 'all');
     Route::get('/detail/{id}', 'detail');
     Route::get('/edit/{id}', 'edit');
+    
     Route::post('/save', 'save');
+    Route::post('/save/subform', 'save_subform');
     Route::post('/update', 'update');
     Route::post('/delete', 'delete');
     Route::post('/delete/question', 'delete_question');
