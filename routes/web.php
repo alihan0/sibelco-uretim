@@ -30,6 +30,6 @@ Route::controller(AuthController::class)->prefix('auth')->group(function(){
 
 Route::controller(FormController::class)->prefix('form')->group(function(){
     Route::get('/new', 'new');
-
+    Route::get('/all', 'all');
     Route::post('/save', 'save');
 });

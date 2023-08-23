@@ -17,4 +17,9 @@ class Form extends Model
         'to_emails',
         'status'
     ];
+
+
+    public function Questions(){
+        return $this->hasMany(FormQuestion::class, 'form', 'id');
+    }
 }
