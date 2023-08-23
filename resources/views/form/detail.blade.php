@@ -185,9 +185,9 @@
         </div>
         <div class="modal-body">
             <div class="form-group row">
-                <label for="title" class="col-md-4 col-form-label">Soru Sırası:</label>
+                <label for="align" class="col-md-4 col-form-label">Soru Sırası:</label>
                 <div class="col-md-8">
-                    <input class="form-control" type="text" placeholder="Formun görünen adını girin" id="title">
+                    <input class="form-control" type="text" placeholder="Formun görünen adını girin" id="align">
                 </div>
             </div>
             <div class="form-group row">
@@ -197,26 +197,20 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="title" class="col-md-4 col-form-label">Form Başlığı:</label>
+                <label for="question" class="col-md-4 col-form-label">Sorunuz:</label>
                 <div class="col-md-8">
-                    <input class="form-control" type="text" placeholder="Formun görünen adını girin" id="title">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="title" class="col-md-4 col-form-label">Sorunuz:</label>
-                <div class="col-md-8">
-                    <input class="form-control" type="text" placeholder="Formun görünen adını girin" id="title">
+                    <input class="form-control" type="text" placeholder="Formun görünen adını girin" id="question">
                 </div>
             </div>
             <div class="custom-control custom-checkbox mb-2">
-                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                <label class="custom-control-label" for="customCheck1">Bu soru yönetici onayı gerektirsin</label>
+                <input type="checkbox" class="custom-control-input" id="confirm">
+                <label class="custom-control-label" for="confirm">Bu soru yönetici onayı gerektirsin</label>
             </div>
             
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
-          <button type="button" class="btn btn-primary">Ekle</button>
+          <button type="button" class="btn btn-primary" onclick="addQuestion()">Ekle</button>
         </div>
       </div>
     </div>
@@ -254,6 +248,28 @@
                     });
                 }
             })
+        }
+        // SORU EKLE
+        function addQuestion(){
+            var form = $("#form_id").val();
+            var align = $("#align").val();
+            var title = $("#title").val();
+            var question = $("#question").val()
+            var confirmed;
+
+            if ($('#confirm').is(':checked')) {
+                confirmed = 1;
+            }else{
+                confirmed = 0;
+            }
+
+            axios.post('/form/add/question', {form:form, align:align, title:title, question:question, confirmed:confirmed}).then((res) => {
+                if(res.data.status){
+                    window.location.reload()
+                }else{
+                    toastr[res.data.type](res.data.message);
+                }
+            });
         }
     </script>
 @endsection

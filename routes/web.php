@@ -36,4 +36,5 @@ Route::controller(FormController::class)->prefix('form')->group(function(){
     Route::post('/save', 'save');
     Route::post('/update', 'update');
     Route::post('/delete', 'delete');
+    Route::post('/add/question', 'add_question');
 });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Form;
+use App\Models\FormQuestion;
 use Illuminate\Http\Request;
 
 class FormController extends Controller
@@ -55,4 +56,25 @@ class FormController extends Controller
             }
         }
     }
+
+    public function add_question(Request $request){
+        if(empty($request->title) || empty($request->align) || empty($request->question)){
+            $this->message = "Boş alan bırakamazsınız!";
+        }else{
+           $save = FormQuestion::create([
+            "form" => $request->form,
+            "align" => $request->align,
+            "title" => trim(ucfirst($request->title)),
+            "confirmation" => $request->confirmed,
+            "question" => trim(ucfirst($request->question)),
+            "status" => 1
+           ]);
+           if($save){
+            $this->status = true;
+           }else{
+            $this->message = "SYSTEM_ERROR";
+           }
+        }
+        return response(["type" => $this->type, "message" => $this->message, "status" => $this->status]);
+    } 
 }
