@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FormController;
 use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,4 +26,10 @@ Route::controller(MainController::class)->middleware('auth')->group(function(){
 Route::controller(AuthController::class)->prefix('auth')->group(function(){
     Route::get('/login', 'login')->name('login');
     Route::post('/login', 'do_login');
+});
+
+Route::controller(FormController::class)->prefix('form')->group(function(){
+    Route::get('/new', 'new');
+
+    Route::post('/save', 'save');
 });

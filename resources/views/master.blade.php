@@ -2,7 +2,7 @@
 <html lang="tr">
     <head>
         <meta charset="utf-8" />
-        <title>Pano - {{env('APP_NAME')}}</title>
+        <title>@yield('title') - {{env('APP_NAME')}}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="Metatige Dijital" name="author" />
         <meta content="0546 497 1229" name="contact" />

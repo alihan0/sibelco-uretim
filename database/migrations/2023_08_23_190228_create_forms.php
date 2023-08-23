@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('forms', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('detail');
-            $table->string('to_emails');
+            $table->string('detail')->nullable();
+            $table->string('to_emails')->nullable();
             $table->integer('status');
             $table->timestamps();
         });
