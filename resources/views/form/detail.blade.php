@@ -273,7 +273,7 @@
         }
         // SORUYU PASİF YAP
         function makePassive(id){
-            axios.post('/form/do/passive', {id:id}).then((res) => {
+            axios.post('/form/set/passive', {id:id}).then((res) => {
                 if(res.data.status){
                     window.location.reload();
                 }
@@ -281,7 +281,7 @@
         }
         // SORUYU AKTİF YAP
         function makeActive(id){
-            axios.post('/form/do/active', {id:id}).then((res) => {
+            axios.post('/form/set/active', {id:id}).then((res) => {
                 if(res.data.status){
                     window.location.reload();
                 }
