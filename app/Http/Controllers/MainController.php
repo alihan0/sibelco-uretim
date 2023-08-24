@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Form;
+use App\Models\FormQuestion;
 use App\Models\Notification;
 use App\Models\User;
 use App\Sender\Sender;
@@ -15,7 +17,7 @@ class MainController extends Controller
         if(Session::get('screen') == "admin"){
             return view('main.dashboard');
         }else{
-            return view('staff.forms');
+            return view('staff.forms', ['forms' => Form::all()]);
         }
     }
 
@@ -53,5 +55,12 @@ class MainController extends Controller
     public function switch_screen(Request $request){
         Session::put('screen', $request->screen);
         return response(["status" => true]);
+    }
+
+    public function get_question(Request $request){
+        $form = Form::find($request->formid);
+        $soru = FormQuestion::where('form', $form->id)->where('align', $request->soru)->first();
+
+        return response(["form" => $form, "soru" => $soru]);
     }
 }

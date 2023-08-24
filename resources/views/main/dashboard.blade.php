@@ -19,6 +19,5 @@
         </div>
     </div>
 </div>
-asd
-{{print_r(Session::all())}}
+
 @endsection
