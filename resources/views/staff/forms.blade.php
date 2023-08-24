@@ -88,7 +88,7 @@
                     tesis_durum = 0;
                 }
 
-                soruSor(form_id);
+                soruSor(form_id, 1);
 
             });
 
@@ -96,9 +96,10 @@
     });
 }
 
-function soruSor(formid, soru = 1){
+function soruSor(formid, soru){
     axios.post('/get-questions', {formid:formid, soru:soru}).then((res) => {
-        $("body").append('<div class="modal fade" id="SoruModal" tabindex="-1" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">'+
+        if(res.data.soru){
+            $("body").append('<div class="modal fade" id="SoruModal" tabindex="-1" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">'+
                 '<div class="modal-dialog">'+
                     '<div class="modal-content">'+
                     '<div class="modal-header">'+
@@ -128,14 +129,19 @@ function soruSor(formid, soru = 1){
         $("#nextButton").on("click", function(){
             soruKaydet(formid,soru);
             $("#SoruModal").remove()
+            $('.modal-backdrop').remove();
         })
+        }else{
+            alert("son soruydu")
+        }
+        
     })
 }
 
 
-function soruKaydet(form, soru, cevap){
-    soru = soru + 1;
-    soruSor(form, soru)
+function soruKaydet(formid, soru){
+    soru++;
+    soruSor(formid, soru)
 }
     </script>
 @endsection
