@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\UserController;
@@ -56,8 +57,13 @@ Route::controller(FormController::class)->prefix('form')->group(function(){
 Route::controller(UserController::class)->prefix('user')->middleware('auth')->group(function(){
     Route::get('/new', 'new');
     Route::get('/all', 'all');
-
     Route::post('/save', 'save');
     Route::post('/delete', 'delete');
     Route::post('/change-password', 'change_password');
+});
+
+Route::controller(FacilityController::class)->prefix('facility')->middleware('auth')->group(function(){
+    Route::get('/new', 'new');
+
+    Route::post('/save', 'save');
 });
