@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notification;
+use App\Models\User;
+use App\Sender\Sender;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class MainController extends Controller
 {
@@ -23,5 +26,22 @@ class MainController extends Controller
             }
         }
 
+    }
+
+    public function change_password(Request $request){
+        if($request->id){
+            $find = User::find($request->id);
+            if($find){
+                $find->password = Hash::make($request->password);
+                if($find->save()){
+                    $data = [
+                        "name" => $find->name,
+                        "password" => $request->password
+                    ];
+                    Sender::email($find->email, 'Şifreni Değiştirdin', $data, 'emails.password-is-change');
+                    return response(["status" => true]);
+                }
+            }
+        }
     }
 }

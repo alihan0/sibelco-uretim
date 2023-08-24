@@ -90,6 +90,7 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     <!-- item-->
+                    <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#changePassword"><i class="mdi mdi-key font-size-16 align-middle mr-1"></i> Şifre Değiştir</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/auth/logout"><i class="mdi mdi-logout font-size-16 align-middle mr-1"></i> Çıkış Yap</a>
                 </div>
@@ -97,4 +98,6 @@
 
         </div>
     </div>
+
+    
 </header>

@@ -23,6 +23,7 @@ Route::controller(MainController::class)->middleware('auth')->group(function(){
     Route::get('/', 'index');
 
     Route::post('/read-notification', 'notification_read');
+    Route::post('/change-password', 'change_password');
 });
 
 Route::controller(AuthController::class)->prefix('auth')->group(function(){

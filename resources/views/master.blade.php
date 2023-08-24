@@ -380,6 +380,33 @@
         <!-- Right bar overlay-->
         <div class="rightbar-overlay"></div>
 
+        <!-- Modal -->
+<div class="modal fade" id="changePassword" tabindex="-1" aria-labelledby="changePasswordLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="changePasswordLabel">Şifreni Değiştir</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group row">
+                <label for="password" class="col-md-4 col-form-label">Yeni Şifre:</label>
+                <div class="col-md-6">
+                    <input class="form-control" type="password" placeholder="Yeni şifreni gir" id="newuserpassword">
+                </div>
+            </div>
+            
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">vazgeç</button>
+        <button type="button" class="btn btn-primary" onclick="changeUserPassword({{Auth::user()->id}})">Kaydet</button>
+        </div>
+    </div>
+    </div>
+</div>
+
         <!-- JAVASCRIPT -->
         <script src="/static/assets/libs/jquery/jquery.min.js"></script>
         <script src="/static/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -405,6 +432,16 @@
                     }
                 });
             });
+
+            function changeUserPassword(userid){
+                var password = $("#newuserpassword").val();
+
+                axios.post('/change-password', {id:userid, password:password}).then((res)=>{
+                    if(res.data.status){
+                        window.location.assign('/auth/logout');
+                    }
+                });
+            }
         </script>
     </body>
 </html>
