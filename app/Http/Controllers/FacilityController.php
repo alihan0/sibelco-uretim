@@ -10,9 +10,12 @@ class FacilityController extends Controller
     protected $type = "warning";
     protected $message = null;
     protected $status = false;
-    
+
     public function new(){
         return view('facility.new');
+    }
+    public function all(){
+        return view('facility.all', ['facilities' => Facility::all()]);
     }
 
     public function save(Request $request){
@@ -32,5 +35,17 @@ class FacilityController extends Controller
         }
 
         return response(["type" => $this->type, "message" => $this->message, "status" => $this->status]);
+    }
+
+    public function rename(Request $request){
+        if($request->id){
+            $find = Facility::find($request->id);
+            if($find){
+                $find->title = trim(ucfirst($request->title));
+                if($find->save()){
+                    return response(["status" => true]);
+                }
+            }
+        }
     }
 }
