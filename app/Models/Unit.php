@@ -16,4 +16,8 @@ class Unit extends Model
         "title",
         "detail"
     ];
+
+    public function Facility(){
+        return $this->belongsTo(Facility::class, 'facility' ,'id');
+    }
 }

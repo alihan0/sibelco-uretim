@@ -66,7 +66,7 @@ class FacilityController extends Controller
         return view('facility.new-unit', ['facilities' => Facility::all()]);
     }
     public function all_unit(){
-        return view('facility.all-unit', ['unites' => Unit::all()]);
+        return view('facility.all-unit', ['units' => Unit::all()]);
     }
 
     public function save_unit(Request $request){
@@ -75,7 +75,7 @@ class FacilityController extends Controller
         }elseif(empty($request->title)){
             $this->message = "Birim adını girmek zorundasınız.";
         }else{
-            $save = Facility::create([
+            $save = Unit::create([
                 "facility" => $request->facility,
                 "title" => trim(ucfirst($request->title)),
                 "detail" => trim(ucfirst($request->detail))
