@@ -1,17 +1,18 @@
 <div id="sidebar-menu">
     <!-- Left Menu Start -->
+
     <ul class="metismenu list-unstyled" id="side-menu">
         <li class="menu-title">#</li>
-
+        
         <li>
-            <a href="/admin/" class="waves-effect">
+            <a href="/" class="waves-effect">
                 <i class="mdi mdi-view-dashboard"></i>
                 <span>Pano</span>
             </a>
         </li>
 
         <li>
-            <a href="/admin/archive" class="waves-effect">
+            <a href="/archive" class="waves-effect">
                 <i class="mdi mdi-file-document-box-check-outline"></i>
                 <span>Arşiv</span>
             </a>
@@ -27,10 +28,10 @@
                 <span>Formlar</span>
             </a>
             <ul class="sub-menu" aria-expanded="false">
-                <li><a href="/admin/form/new">Yeni Form</a></li>
-                <li><a href="/admin/form/all">Tüm Formlar</a></li>
-                <li><a href="/admin/form/new/subform">Yeni Alt Form</a></li>
-                <li><a href="/admin/form/all/subform">Alt Formlar</a></li>
+                <li><a href="/form/new">Yeni Form</a></li>
+                <li><a href="/form/all">Tüm Formlar</a></li>
+                <li><a href="/form/new/subform">Yeni Alt Form</a></li>
+                <li><a href="/form/all/subform">Alt Formlar</a></li>
             </ul>
         </li>
 
@@ -45,8 +46,8 @@
                 <span>Kullanıcılar</span>
             </a>
             <ul class="sub-menu" aria-expanded="false">
-                <li><a href="/admin/user/new">Yeni Kullanıcı</a></li>
-                <li><a href="/admin/user/all">Tüm Kullanıcılar</a></li>
+                <li><a href="/user/new">Yeni Kullanıcı</a></li>
+                <li><a href="/user/all">Tüm Kullanıcılar</a></li>
             </ul>
         </li>
 
@@ -56,10 +57,10 @@
                 <span>Tesisler</span>
             </a>
             <ul class="sub-menu" aria-expanded="false">
-                <li><a href="/admin/facility/new">Yeni Tesis</a></li>
-                <li><a href="/admin/facility/all">Tüm Tesisler</a></li>
-                <li><a href="/admin/facility/new/unit">Yeni Birim</a></li>
-                <li><a href="/admin/facility/all/unit">Tüm Birimler</a></li>
+                <li><a href="/facility/new">Yeni Tesis</a></li>
+                <li><a href="/facility/all">Tüm Tesisler</a></li>
+                <li><a href="/facility/new/unit">Yeni Birim</a></li>
+                <li><a href="/facility/all/unit">Tüm Birimler</a></li>
             </ul>
         </li>
         

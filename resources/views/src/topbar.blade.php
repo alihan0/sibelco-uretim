@@ -3,7 +3,7 @@
         <div class="d-flex">
             <!-- LOGO -->
             <div class="navbar-brand-box">
-                <a href="index.html" class="logo logo-dark">
+                <a href="/" class="logo logo-dark">
                     <span class="logo-sm">
                         <img src="/static/assets/images/logo-sm-dark.png" alt="" height="22">
                     </span>
@@ -12,7 +12,7 @@
                     </span>
                 </a>
 
-                <a href="index.html" class="logo logo-light">
+                <a href="/" class="logo logo-light">
                     <span class="logo-sm">
                         <img src="/static/assets/images/logo-sm-light.png" alt="" height="22">
                     </span>
@@ -25,11 +25,21 @@
             <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
                 <i class="mdi mdi-backburger"></i>
             </button>
+          
+            <form class="app-search" style="width:200px">
+                <div class="position-relative">
+
+                    <select class="form-control" id="screenSwitcher">
+                        <option value="admin" {{Session::get('screen') == "admin" ? "selected":""}}>Admin Görünümü</option>
+                        <option value="staff" {{Session::get('screen') == "staff" ? "selected":""}}>Kullanıcı Görünümü</option>
+                    </select>
+                    <span class="mdi mdi-monitor"> </span>
+                </div>
+            </form>
+            {{Session::get('screen')}}
         </div>
 
         <div class="d-flex">
-
-            
 
             
 

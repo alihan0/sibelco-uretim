@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Auth;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -24,6 +25,16 @@ class AuthController extends Controller
                 $this->type = "success";
                 $this->message = "Giriş Başarılı!";
                 $this->status = true;
+                $user = Auth::user();
+                if ($user->type == 'ADMIN') {
+                    Session::put('screen', 'admin');
+                } elseif ($user->type == 'USER') {
+                    Session::put('screen', 'BOTH');
+                } elseif ($user->type == 'both') {
+                    Session::put('screen', Auth::user()->default_screen);
+                }
+
+                
             }else{
                 $this->message = "Kullanıcı adı ya da şifre hatalı!";
             }
@@ -33,6 +44,7 @@ class AuthController extends Controller
 
     public function logout(Request $request) {
         Auth::logout();
+        Session::flush();
         return redirect('/');
       }
 }

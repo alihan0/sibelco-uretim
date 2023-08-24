@@ -27,6 +27,7 @@
             </div>
         </div>
     </div>
+    {{print_r(Session::all())}}
 @endsection
 
 @section('script')

@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             'username' => "admin",
             "email" => "admin@metatige.com",
             "phone" => "111111111",
+            "default_screen" => "admin",
             "password" => Hash::make('1234567')
         ]);
 
@@ -36,6 +37,7 @@ class DatabaseSeeder extends Seeder
             'username' => "user",
             "phone" => "111111112",
             "email" => "user@metatige.com",
+            "default_screen" => "staff",
             "password" => Hash::make('1234567')
         ]);
         

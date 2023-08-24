@@ -19,18 +19,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function(){
-    if(!Auth::check()){
-        return redirect('/auth/login');
-    }
 
-    if(Auth::user()->type == "ADMIN"){
-        return redirect('/admin');
-    }elseif(Auth::user()->type == "USER"){
-        return redirect('/staff');
-    }elseif(Auth::user()->type == "BOTH"){
-        return redirect(Session::get('screen'));
-    }
+Route::controller(MainController::class)->middleware('auth')->group(function(){
+    Route::get('/', 'index');
+    Route::post('/change-password', 'change_password');
+    Route::post('/read-notification', 'notification_read');
+    Route::post('/switch-screen', 'switch_screen');
 });
 
 Route::controller(AuthController::class)->prefix('auth')->group(function(){
@@ -39,58 +33,48 @@ Route::controller(AuthController::class)->prefix('auth')->group(function(){
     Route::get('/logout', 'logout');
 });
 
-Route::prefix('admin')->group(function(){
+Route::controller(FormController::class)->prefix('form')->group(function(){
+    Route::get('/new', 'new');
+    Route::get('/new/subform', 'new_subform');
+    Route::get('/all', 'all');
+    Route::get('/all/subform', 'all_subform');
+    Route::get('/detail/{id}', 'detail');
+    Route::get('/detail/subform/{id}', 'detail_subform');
+    Route::get('/edit/{id}', 'edit');
     
-    Route::controller(MainController::class)->group(function(){
-        Route::get('/', 'index');
-        Route::get('/change-password', 'change_password');
-        Route::get('/read-notification', 'notification_read');
-    });
+    Route::post('/save', 'save');
+    Route::post('/save/subform', 'save_subform');
+    Route::post('/update', 'update');
+    Route::post('/delete', 'delete');
+    Route::post('/delete/question', 'delete_question');
+    Route::post('/delete/subform/question', 'delete_question_subform');
+    Route::post('/add/question', 'add_question');
+    Route::post('/add/subform/question', 'add_question_subform');
+    Route::post('/set/passive', 'question_passive');
+    Route::post('/set/active', 'question_active');
+    Route::post('/update/question', 'update_question');
+    Route::post('/update/subform/question', 'update_question_subform');
+    Route::post('/attach', 'attach');
+});
 
-    Route::controller(FormController::class)->prefix('form')->group(function(){
-        Route::get('/new', 'new');
-        Route::get('/new/subform', 'new_subform');
-        Route::get('/all', 'all');
-        Route::get('/all/subform', 'all_subform');
-        Route::get('/detail/{id}', 'detail');
-        Route::get('/detail/subform/{id}', 'detail_subform');
-        Route::get('/edit/{id}', 'edit');
-        
-        Route::post('/save', 'save');
-        Route::post('/save/subform', 'save_subform');
-        Route::post('/update', 'update');
-        Route::post('/delete', 'delete');
-        Route::post('/delete/question', 'delete_question');
-        Route::post('/delete/subform/question', 'delete_question_subform');
-        Route::post('/add/question', 'add_question');
-        Route::post('/add/subform/question', 'add_question_subform');
-        Route::post('/set/passive', 'question_passive');
-        Route::post('/set/active', 'question_active');
-        Route::post('/update/question', 'update_question');
-        Route::post('/update/subform/question', 'update_question_subform');
-        Route::post('/attach', 'attach');
-    });
+Route::controller(UserController::class)->prefix('user')->middleware('auth')->group(function(){
+    Route::get('/new', 'new');
+    Route::get('/all', 'all');
+    Route::post('/save', 'save');
+    Route::post('/delete', 'delete');
+    Route::post('/change-password', 'change_password');
+});
 
-    Route::controller(UserController::class)->prefix('user')->middleware('auth')->group(function(){
-        Route::get('/new', 'new');
-        Route::get('/all', 'all');
-        Route::post('/save', 'save');
-        Route::post('/delete', 'delete');
-        Route::post('/change-password', 'change_password');
-    });
+Route::controller(FacilityController::class)->prefix('facility')->middleware('auth')->group(function(){
+    Route::get('/new', 'new');
+    Route::get('/new/unit', 'new_unit');
+    Route::get('/all', 'all');
+    Route::get('/all/unit', 'all_unit');
 
-    Route::controller(FacilityController::class)->prefix('facility')->middleware('auth')->group(function(){
-        Route::get('/new', 'new');
-        Route::get('/new/unit', 'new_unit');
-        Route::get('/all', 'all');
-        Route::get('/all/unit', 'all_unit');
-
-        Route::post('/save', 'save');
-        Route::post('/save/unit', 'save_unit');
-        Route::post('/rename', 'rename');
-        Route::post('/rename/unit', 'rename_unit');
-        Route::post('/delete', 'delete');
-        Route::post('/delete/unit', 'delete_unit');
-    });
-
+    Route::post('/save', 'save');
+    Route::post('/save/unit', 'save_unit');
+    Route::post('/rename', 'rename');
+    Route::post('/rename/unit', 'rename_unit');
+    Route::post('/delete', 'delete');
+    Route::post('/delete/unit', 'delete_unit');
 });

@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Sender\Sender;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class MainController extends Controller
 {
@@ -38,10 +39,15 @@ class MainController extends Controller
                         "name" => $find->name,
                         "password" => $request->password
                     ];
-                    Sender::email($find->email, 'Şifreni Değiştirdin', $data, 'emails.password-is-change');
+                    Sender::email($find->email, 'Şifren Değiştirildi', $data, 'emails.password-change');
                     return response(["status" => true]);
                 }
             }
         }
+    }
+
+    public function switch_screen(Request $request){
+        Session::put('screen', $request->screen);
+        return response(["status" => true]);
     }
 }
