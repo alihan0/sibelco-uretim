@@ -17,6 +17,10 @@ class UserController extends Controller
         return view('user.new');
     }
 
+    public function all(){
+        return view('user.all', ['users' => User::all()]);
+    }
+
     public function save(Request $request){
 
         if($request->type == 0){
@@ -69,4 +73,16 @@ class UserController extends Controller
 
         return response(["type" => $this->type, "message" => $this->message, "status" => $this->status]);
     }
+
+    public function delete(Request $request){
+        if($request->id){
+            $find = User::find($request->id);
+            if($find){
+                if($find->delete()){
+                    return response(["status" => true]);
+                }
+            }
+        }
+    }
+
 }
