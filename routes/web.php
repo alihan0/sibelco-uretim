@@ -59,4 +59,5 @@ Route::controller(UserController::class)->prefix('user')->middleware('auth')->gr
 
     Route::post('/save', 'save');
     Route::post('/delete', 'delete');
+    Route::post('/change-password', 'change_password');
 });

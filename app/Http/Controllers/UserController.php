@@ -85,4 +85,22 @@ class UserController extends Controller
         }
     }
 
+    public function change_password(Request $request){
+        if($request->id){
+            $find = User::find($request->id);
+            if($find){
+                $password = Str::random(10);
+                $find->password = Hash::make($password);
+                if($find->save()){
+                    $data = [
+                        "name" => $find->name,
+                        "password" => $password
+                    ];
+                    Sender::email($find->email, 'Şifren Değiştirildi', $data, 'emails.password-change');
+                    return response(["status" => true]);
+                }
+            }
+        }
+    }
+
 }

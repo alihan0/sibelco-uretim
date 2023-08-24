@@ -64,12 +64,14 @@
                                       İşlem
                                     </button>
                                     <div class="dropdown-menu">
-                                      <a class="dropdown-item" href="javascript:;">Şifre Değiştir</a>
+                                      <a class="dropdown-item" href="javascript:;" onclick="changePassword({{$user->id}})">Şifre Değiştir</a>
                                       <a class="dropdown-item" href="javascript:;" onclick="deleteUser({{$user->id}})">Sil</a>
                                     </div>
                                   </div>
                             </td>
                         </tr>
+
+
                         @endforeach
                         </tbody>
                     </table>
@@ -115,6 +117,36 @@
                             Swal.fire(
                                 'Başarılı!',
                                 'Form başarıyla silindi.',
+                                'success'
+                            ).then((ok) => {   
+                                if(ok.value){
+                                    window.location.reload()
+                                }
+                            });
+
+                        }
+                    });
+                }
+            })
+        }
+
+        function changePassword(id){
+            Swal.fire({
+                title: 'Emin misin?',
+                text: "Dikkat! Bu işlem geri alınamaz. Bir kullanıcının şifresini değiştirdiğiniz zaman otomatik bir şifre belirlenir ve kayıtlı olan e-posta adresine gönderilir. Kullanıcı artık eski şifresi ile oturum açamaz.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Evet, Değiştir',
+                cancelButtonText: 'Vazgeç'
+            }).then((result) => {
+                if (result.value) {
+                    axios.post('/user/change-password/', {id:id}).then((res) => {
+                        if(res.data.status){
+                            Swal.fire(
+                                'Başarılı!',
+                                'Şifre Değiştirildi',
                                 'success'
                             ).then((ok) => {   
                                 if(ok.value){
