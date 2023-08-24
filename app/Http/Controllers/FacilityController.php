@@ -93,7 +93,7 @@ class FacilityController extends Controller
 
     public function rename_unit(Request $request){
         if($request->id){
-            $find = Facility::find($request->id);
+            $find = Unit::find($request->id);
             if($find){
                 $find->title = trim(ucfirst($request->title));
                 if($find->save()){

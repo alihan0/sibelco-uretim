@@ -63,7 +63,7 @@
                                     </button>
                                     <div class="dropdown-menu">
                                       <a class="dropdown-item" href="javascript:;" onclick="changeTitle({{$unit->id}})">Adını Değiştir</a>
-                                      <a class="dropdown-item" href="javascript:;" onclick="deleteFacility({{$unit->id}})">Sil</a>
+                                      <a class="dropdown-item" href="javascript:;" onclick="deleteUnit({{$unit->id}})">Sil</a>
                                     </div>
                                   </div>
                             </td>
@@ -82,21 +82,6 @@
 
 @section('script')
     <script>
-        $("#save").on("click", function(){
-            var title = $("#title").val();
-            var detail = $("#detail").val();
-            var email = $("#email").val();
-
-            axios.post('/form/save', {title:title, detail:detail, email:email}).then((res) => {
-                toastr[res.data.type](res.data.message);
-                if(res.data.status){
-                    setInterval(() => {
-                        window.location.assign('/form/detail/'+res.data.id);
-                    }, 500);
-                }
-            });
-        });
-
         
         function deleteFacility(id){
             Swal.fire({
@@ -130,10 +115,10 @@
 
         function changeTitle(id){
             Swal.fire({
-                title: 'Tesisin Adını Değiştir',
+                title: 'Birimin Adını Değiştir',
                 input: "text",
                 inputAttributes: {
-                    placeholder: 'Tesisin Yeni Adı '
+                    placeholder: 'Birimin Yeni Adı '
                 },
                 icon: 'info',
                 showCancelButton: true,
@@ -143,11 +128,11 @@
                 cancelButtonText: 'Vazgeç'
             }).then((result) => {
                 if (result.value) {
-                    axios.post('/facility/rename/', {id:id, title:result.value}).then((res) => {
+                    axios.post('/facility/rename/unit', {id:id, title:result.value}).then((res) => {
                         if(res.data.status){
                             Swal.fire(
                                 'Başarılı!',
-                                'Tesis Adı Değiştirildi',
+                                'Birim Adı Değiştirildi',
                                 'success'
                             ).then((ok) => {   
                                 if(ok.value){
