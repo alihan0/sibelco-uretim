@@ -68,4 +68,5 @@ Route::controller(FacilityController::class)->prefix('facility')->middleware('au
 
     Route::post('/save', 'save');
     Route::post('/rename', 'rename');
+    Route::post('/delete', 'delete');
 });

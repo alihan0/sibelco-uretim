@@ -95,10 +95,10 @@
         });
 
         
-        function deleteUser(id){
+        function deleteFacility(id){
             Swal.fire({
                 title: 'Emin misin?',
-                text: "Dikkat! Bu işlem geri alınamaz. Bir kullanıcıyı sildiğiniz zaman o kullanıcı artık  olur ve oturum açamaz.Ayrıca kullanıcının kullanıldığı statik sayfalar hata verebilir.",
+                text: "Dikkat! Bu işlem geri alınamaz. Bir tesisi sildiğinizde, tesis artık kullanılamaz ve tesinin seçili olduğu form arşivleri hata verebilir.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -107,11 +107,11 @@
                 cancelButtonText: 'Vazgeç'
             }).then((result) => {
                 if (result.value) {
-                    axios.post('/user/delete/', {id:id}).then((res) => {
+                    axios.post('/facility/delete/', {id:id}).then((res) => {
                         if(res.data.status){
                             Swal.fire(
                                 'Başarılı!',
-                                'Form başarıyla silindi.',
+                                'Tesis başarıyla silindi.',
                                 'success'
                             ).then((ok) => {   
                                 if(ok.value){
