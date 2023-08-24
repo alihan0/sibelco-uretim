@@ -105,7 +105,7 @@ class FacilityController extends Controller
 
     public function delete_unit(Request $request){
         if($request->id){
-            $find = Facility::find($request->id);
+            $find = Unit::find($request->id);
             if($find){
                 if($find->delete()){
                     return response(["status" => true]);

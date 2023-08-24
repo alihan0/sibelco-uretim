@@ -83,10 +83,10 @@
 @section('script')
     <script>
         
-        function deleteFacility(id){
+        function deleteUnit(id){
             Swal.fire({
                 title: 'Emin misin?',
-                text: "Dikkat! Bu işlem geri alınamaz. Bir tesisi sildiğinizde, tesis artık kullanılamaz ve tesinin seçili olduğu form arşivleri hata verebilir.",
+                text: "Dikkat! Bu işlem geri alınamaz. Bir birimi sildiğinizde, birimi artık kullanılamaz ve birimi seçili olduğu form arşivleri hata verebilir.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -95,11 +95,11 @@
                 cancelButtonText: 'Vazgeç'
             }).then((result) => {
                 if (result.value) {
-                    axios.post('/facility/delete/', {id:id}).then((res) => {
+                    axios.post('/facility/delete/unit', {id:id}).then((res) => {
                         if(res.data.status){
                             Swal.fire(
                                 'Başarılı!',
-                                'Tesis başarıyla silindi.',
+                                'Birim başarıyla silindi.',
                                 'success'
                             ).then((ok) => {   
                                 if(ok.value){
