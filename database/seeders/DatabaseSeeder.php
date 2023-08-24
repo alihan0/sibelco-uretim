@@ -22,9 +22,20 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         DB::table('users')->insert([
-            'name' => "Demo User",
+            'type' => "ADMIN",
+            'name' => "Demo Admin",
             'username' => "admin",
             "email" => "admin@metatige.com",
+            "phone" => "111111111",
+            "password" => Hash::make('1234567')
+        ]);
+
+        DB::table('users')->insert([
+            'type' => "USER",
+            'name' => "Demo User",
+            'username' => "user",
+            "phone" => "111111112",
+            "email" => "user@metatige.com",
             "password" => Hash::make('1234567')
         ]);
         

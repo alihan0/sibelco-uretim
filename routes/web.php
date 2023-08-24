@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,4 +51,10 @@ Route::controller(FormController::class)->prefix('form')->group(function(){
     Route::post('/update/question', 'update_question');
     Route::post('/update/subform/question', 'update_question_subform');
     Route::post('/attach', 'attach');
+});
+
+Route::controller(UserController::class)->prefix('user')->middleware('auth')->group(function(){
+    Route::get('/new', 'new');
+
+    Route::post('/save', 'save');
 });
