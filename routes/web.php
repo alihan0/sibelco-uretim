@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\StaffController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -77,4 +78,12 @@ Route::controller(FacilityController::class)->prefix('facility')->middleware('au
     Route::post('/rename/unit', 'rename_unit');
     Route::post('/delete', 'delete');
     Route::post('/delete/unit', 'delete_unit');
+});
+
+Route::controller(StaffController::class)->prefix('staff')->middleware('auth')->group(function(){
+    Route::get('/', function(){
+        return redirect('/staff/forms');
+    });
+
+    Route::get('forms', 'forms');
 });

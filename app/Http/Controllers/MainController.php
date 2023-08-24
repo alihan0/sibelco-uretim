@@ -12,7 +12,11 @@ use Illuminate\Support\Facades\Session;
 class MainController extends Controller
 {
     public function index(){
-        return view('main.dashboard');
+        if(Session::get('screen') == "admin"){
+            return view('main.dashboard');
+        }else{
+            return view('staff.forms');
+        }
     }
 
     public function notification_read(Request $reqeust){

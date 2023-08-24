@@ -26,6 +26,7 @@
                 <i class="mdi mdi-backburger"></i>
             </button>
           
+            @if (Auth::user()->type == "BOTH")
             <form class="app-search" style="width:200px">
                 <div class="position-relative">
 
@@ -36,7 +37,8 @@
                     <span class="mdi mdi-monitor"> </span>
                 </div>
             </form>
-            {{Session::get('screen')}}
+            @endif
+
         </div>
 
         <div class="d-flex">
