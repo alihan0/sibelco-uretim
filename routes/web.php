@@ -64,9 +64,14 @@ Route::controller(UserController::class)->prefix('user')->middleware('auth')->gr
 
 Route::controller(FacilityController::class)->prefix('facility')->middleware('auth')->group(function(){
     Route::get('/new', 'new');
+    Route::get('/new/unit', 'new_unit');
     Route::get('/all', 'all');
+    Route::get('/all/unit', 'all_unit');
 
     Route::post('/save', 'save');
+    Route::post('/save/unit', 'save_unit');
     Route::post('/rename', 'rename');
+    Route::post('/rename/unit', 'rename_unit');
     Route::post('/delete', 'delete');
+    Route::post('/delete/unit', 'delete_unit');
 });
