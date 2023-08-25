@@ -316,6 +316,14 @@ class SurveyDraft {
             });
         });
 
+        $("#draftFinalFormButton").on("click", function(){
+            $(".btn").attr('disabled', true);
+            toastr["success"]("Form taslak olarak kaydedildi.");
+            setInterval(() => {
+                window.location.reload();
+            }, 1000);
+        });
+
         $("#previewImage").on("click", function () {
             const previewImage = document.getElementById("previewImage");
             previewImage.src = "";
