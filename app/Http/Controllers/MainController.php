@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ConfimCode;
 use App\Models\Form;
 use App\Models\FormQuestion;
 use App\Models\Notification;
 use App\Models\User;
 use App\Sender\Sender;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class MainController extends Controller
 {
@@ -86,6 +89,33 @@ class MainController extends Controller
     }
 
     public function send_confirmation_code(Request $request){
+        if($request->admin){
+            $admin = User::find($request->admin);
+            $soru = FormQuestion::find($request->soru);
+            if($admin){
+            
+
+                $characters = '0123456789';
+                $generatecode = '';
+
+                for ($i = 0; $i < 6; $i++) {
+                    $generatecode .= $characters[random_int(0, strlen($characters) - 1)];
+                }
+
+                $randcode = ConfimCode::where('code', $generatecode)->first();
+                if($randcode){
+                    $rand = Str::random(6);
+                }else{
+                    $rand = $generatecode;
+                    ConfimCode::create(["code" => $rand, "status" => 1]);
+                }
+
+                
+                
+                $message = Auth::user()->name . ", $soru->title için onay istiyor. Onay Kodu: $rand";
+                Sender::sms($admin->phone, $message);
+            }
+        }
         return response(["status" => true]);
     }
 }
