@@ -74,6 +74,7 @@ class MainController extends Controller
             if($user){
                 $user->default_screen = $request->screen;
                 if($user->save()){
+                    Sender::notification($request->user, "Varsayılan Ekran Değiştirildi", "Oturum açtığınızda yönlendirileceğiniz varsayılan ekran tercihiniz <code>$request->screen</code> olarak değiştirildi");
                     return response(["status" => true]);
                 }
             }
