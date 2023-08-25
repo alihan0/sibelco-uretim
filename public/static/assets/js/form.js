@@ -150,7 +150,7 @@ class SurveyDraft {
                     $('.modal-backdrop').remove();
                 });
             } else {
-                alert('It was the last question.');
+                await this.finalForm(draft, key);
             }
         } catch (error) {
             console.error('Error:', error);
@@ -212,7 +212,36 @@ class SurveyDraft {
     }
 
     async finalForm(draft, key){
+        const finalContent = `<div class="modal fade" id="FinalModal" tabindex="-1" data-backdrop="static" data-keyboard="false" aria-labelledby="FinalModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content ">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="FinalModal">Formu Tamamla</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                       <h4 class="modal-title mb-4" style="font-size:.8rem">Fotoğraf Çek/Yükle</h4>
+                        <div class="row form-check mb-4">
+                            <input class="col form-control" type="file" name="file" id="file">
+                        </div>
+                        <hr class="mb-4">
+                        <h4 class="modal-title mb-4" style="font-size:.8rem">Formu İmzala/Yükle</h4>
+                        imza alanı
+                    </div>
+                    <div class="modal-footer d-flex justify-content-end">
+                        <button type="button" class="btn btn-danger float-end" id="finalFormButton">Çöp</button>
+                        <button type="button" class="btn btn-warning float-end" id="finalFormButton">Taslak</button>
+                        <button type="button" class="btn btn-success float-end" id="finalFormButton">Bitir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `;
 
+        $('body').append(finalContent);
+        $('#FinalModal').modal('show');
     }
 }
     
