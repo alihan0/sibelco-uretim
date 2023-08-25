@@ -301,7 +301,15 @@ class SurveyDraft {
         $("#saveFinalFormButton").on("click", function () {
             const signature = signaturePad.toDataURL("image/svg+xml");
             const image = $("#imageInput").val();
-            console.log("Signature:", image);
+            
+            axios.post('/draft/save', {draft, signature, image}).then((res) => {
+                toastr[res.data.type](res.data.message);
+                if(res.data.status){
+                    setInterval(() => {
+                        window.location.reload();
+                    }, 1000);
+                }
+            });
         });
         
         $("#trashFinalButton").on("click", function(){
