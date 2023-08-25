@@ -34,7 +34,7 @@
                         <option value="admin" {{Session::get('screen') == "admin" ? "selected":""}}>Admin Görünümü</option>
                         <option value="staff" {{Session::get('screen') == "staff" ? "selected":""}}>Kullanıcı Görünümü</option>
                     </select>
-                    <span class="mdi mdi-monitor"> </span>
+                    <span class="mdi mdi-monitor"></span>
                 </div>
             </form>
             @endif
@@ -101,6 +101,7 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     <!-- item-->
+                    <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#setDefaultScreen"><i class="mdi mdi-monitor font-size-16 align-middle mr-1"></i> Görünüm Terhicleri</a>
                     <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#changePassword"><i class="mdi mdi-key font-size-16 align-middle mr-1"></i> Şifre Değiştir</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/auth/logout"><i class="mdi mdi-logout font-size-16 align-middle mr-1"></i> Çıkış Yap</a>

@@ -27,6 +27,7 @@ Route::controller(MainController::class)->middleware('auth')->group(function(){
     Route::post('/read-notification', 'notification_read');
     Route::post('/switch-screen', 'switch_screen');
     Route::post('/get-questions', 'get_question');
+    Route::post('/set-defatult-screen', 'set_defatult_screen');
 });
 
 Route::controller(AuthController::class)->prefix('auth')->group(function(){

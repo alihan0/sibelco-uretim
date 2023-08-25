@@ -67,4 +67,16 @@ class MainController extends Controller
 
         return response(["form" => $form, "soru" => $soru]);
     }
+
+    public function set_defatult_screen(Request $request){
+        if($request->screen && $request->user){
+            $user = User::find($request->user);
+            if($user){
+                $user->default_screen = $request->screen;
+                if($user->save()){
+                    return response(["status" => true]);
+                }
+            }
+        }
+    }
 }

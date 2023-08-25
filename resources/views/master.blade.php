@@ -99,6 +99,64 @@
             </div>
         </div>
 
+        <div class="modal fade" id="setDefaultScreen" tabindex="-1" aria-labelledby="setDefaultScreenLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="setDefaultScreenLabel">Varsayılan Görünüm Tercihleri</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    
+                    <p class="text-muted border-bottom mb-4 pb-4">
+                        <b>Varsayılan Görünüm Tercihi</b> oturum açıldıktan sonra sistemin hangi ekranda başlatılacağını belirler. Başlatmak için <code>Yönetici Ekranı</code> ve <code>Kullanıcı Ekranı</code> olarak iki seçeneğiniz vardır. Bu ayarı değiştirebilmek için yetkiye sahip olmalısınız.
+                    </p>
+                    @if(Auth::user()->type == "ADMIN")
+                    <div class="form-group row">
+                        <label for="password" class="col-md-4 col-form-label">Varsayılan Ekranı:</label>
+                        <div class="col-md-6">
+                            <select class="form-control" id="">
+                                <option value="admin">Yönetici Görünümü</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="alert alert-warning" role="alert">
+                        Sadece <code>Yönetici Görünümü</code>'nü kullanmanıza izin veriliyor.
+                      </div>
+                    @elseif(Auth::user()->type == "USER")
+                    <div class="form-group row">
+                        <label for="password" class="col-md-4 col-form-label">Varsayılan Ekranı:</label>
+                        <div class="col-md-6">
+                            <select class="form-control" id="">
+                                <option value="staff">Kullanıcı Görünümü</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="alert alert-warning" role="alert">
+                        Sadece <code>Kullanıcı Görünümü</code>'nü kullanmanıza izin veriliyor.
+                    </div>
+                    @elseif(Auth::user()->type == "BOTH")
+                    <div class="form-group row">
+                        <label for="password" class="col-md-4 col-form-label">Varsayılan Ekranı:</label>
+                        <div class="col-md-8">
+                            <select class="form-control " id="setDefaultScreenSelect" data-user="{{Auth::user()->id}}">
+                                <option value="admin" {{Auth::user()->default_screen == "admin" ? "selected" : ""}}>Yönetici Görünümü</option>
+                                <option value="staff" {{Auth::user()->default_screen == "staff" ? "selected" : ""}}>Kullanıcı Görünümü</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    @endif
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="setDefaultScreenButton">Kaydet</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
         <!-- JAVASCRIPT -->
         <script src="/static/assets/libs/jquery/jquery.min.js"></script>
         <script src="/static/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -116,6 +174,17 @@
 
         @yield('script')
         <script>
+            $("#setDefaultScreenButton").on("click", function(){
+                var screen = $("#setDefaultScreenSelect").val();
+                var user = $("#setDefaultScreenSelect").attr('data-user');
+                axios.post("/set-defatult-screen", {user:user, screen:screen}).then((res)=>{
+                    if(res.data.status){
+                        window.location.reload();
+                    }
+                });
+            });
+
+
             $(".notification-item").on("click", function(){
                 var id = $(this).attr("id");
                 axios.post('/read-notification', {id:id}).then((res) => {
@@ -144,7 +213,9 @@
                         window.location.assign('/');
                     }
                 })
-            })
+            });
+
+            
         </script>
     </body>
 </html>
