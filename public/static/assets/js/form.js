@@ -136,13 +136,14 @@ class SurveyDraft {
                 $('body').append(modalContent);
                 $('#QuestionModal').modal('show');
 
+               
                 // Next butonuna tıklama olayı
                 $('#nextButton').on('click', async () => {
+            
                     const answer = $('input[name="answers"]:checked').val();
-                    const notes = $('.note').val();
+                    const notes = $("#notes").val();
                     const code = $('#code').val();
                     const confirmative = $('#selectAdmin').val();
-
                     // Soruyu kaydet ve modalı kapat
                     await this.saveQuestion(formId, questionNumber, answer, notes, draft, key, code, confirmed, confirmative);
                     $('#QuestionModal').remove();

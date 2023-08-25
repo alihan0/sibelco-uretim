@@ -163,7 +163,7 @@ class MainController extends Controller
             "form" => $request->form,
             "question" => $request->soru,
             "answer" => $request->cevap,
-            "note" => $request->note,
+            "note" => $request->not,
             "confirm_code" => $request->code,
             "confirmative" => $request->confirmative
         ]);
