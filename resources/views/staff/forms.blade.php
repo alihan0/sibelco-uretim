@@ -40,12 +40,12 @@
       box-shadow: 0px 0px 20px #047857
     }
     
-    input[type="radio"].sorunvar:checked + label {
+    input[type="radio"].problemExists:checked + label {
       background: #dc2626;
       border-color: #dc2626;
       box-shadow: 0px 0px 20px #991b1b
     }
-    input[type="radio"].sorunvar + label {
+    input[type="radio"].problemExists + label {
 
       border-color: #dc2626;
     }

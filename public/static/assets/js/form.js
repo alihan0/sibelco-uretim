@@ -76,7 +76,7 @@ class SurveyDraft {
                 const soruData = response.data.soru;
                 var confirmed = 0;
                 let requiredConfirm = '';
-                let nextButton = '<button type="button" class="btn btn-primary" id="nextButton">Next</button>';
+                let nextButton = '<button type="button" class="btn btn-primary" id="nextButton">İleri</button>';
 
                 if (soruData.confirmation) {
                     confirmed = 1;
@@ -85,13 +85,13 @@ class SurveyDraft {
                     const admins = adminsResponse.data;
 
                     // Admin seçeneklerini oluştur
-                    let adminOptions = '<option value="0">Select Admin...</option>';
+                    let adminOptions = '<option value="0">Yönetici Seç...</option>';
                     admins.forEach(admin => {
                         adminOptions += `<option value="${admin.id}">${admin.name}</option>`;
                     });
 
                     requiredConfirm = `<div class="alert alert-warning row" role="alert">
-                                        <span class="col-6">This question requires admin confirmation:</span>
+                                        <span class="col-6">Bu soru yönetici doğrulaması gerektiriyor:</span>
                                         <input type="hidden" id="selectAdminSoru" value="${soruData.id}">
                                         <select class="form-control col-6" id="selectAdmin" onchange="Draft.adminSelect()">${adminOptions}</select>
                                     </div>`;
@@ -104,7 +104,7 @@ class SurveyDraft {
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="QuestionModal">Question: ${soruData.title}</h5>
+                                                    <h5 class="modal-title" id="QuestionModal">Soru: ${soruData.align}</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
@@ -114,11 +114,11 @@ class SurveyDraft {
                                                     <hr>
                                                     <div class="form-check mb-4">
                                                         <input class="problemExists" type="radio" name="answers" id="problemExists" value="0">
-                                                        <label for="problemExists">Problem Exists</label>
+                                                        <label for="problemExists">Sorun Var</label>
                                                     </div>
                                                     <div class="form-check mb-4">
                                                         <input type="radio" name="answers" id="problemNotExists" value="1" checked>
-                                                        <label for="problemNotExists">No Problem</label>
+                                                        <label for="problemNotExists">Sorun Yo</label>
                                                     </div>
                                                     ${requiredConfirm}
                                                     <input type="hidden" id="code">
@@ -158,7 +158,6 @@ class SurveyDraft {
     }
     
     // CEVABI KAYDET
-
     async saveQuestion(formId, questionNumber, answer, notes, draft, key, code, confirmed, confirmative){
         
         await axios.post('/save/answer', {key:key, form:formId, soru:questionNumber, cevap:answer, not:notes, draft:draft, key:key, code:code, confirmed:confirmed, confirmative:confirmative}).then((res) => {
@@ -170,6 +169,7 @@ class SurveyDraft {
     }
 
 
+    // ONAY KODU GÖNDER
     async adminSelect() {
         const admin = $("#selectAdmin").val();
         const question = $("#selectAdminSoru").val();
@@ -209,6 +209,10 @@ class SurveyDraft {
         } catch (error) {
             console.log(error);
         }
+    }
+
+    async finalForm(draft, key){
+
     }
 }
     
