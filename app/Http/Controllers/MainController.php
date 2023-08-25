@@ -17,7 +17,7 @@ class MainController extends Controller
         if(Session::get('screen') == "admin"){
             return view('main.dashboard');
         }else{
-            return view('staff.forms', ['forms' => Form::all()]);
+            return redirect('/staff');
         }
     }
 
