@@ -34,6 +34,7 @@ Route::controller(MainController::class)->middleware('auth')->group(function(){
     Route::post('/control-confirmation-code', 'control_confirmation_code');
     Route::post('/form/save/anket', 'form_save_anket');
     Route::post('/save/answer', 'save_answer');
+    Route::post('/draft/delete', 'draft_delete');
     
 });
 Route::post('/upload/save', [UploadController::class, 'save']);

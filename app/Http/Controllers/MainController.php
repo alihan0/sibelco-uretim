@@ -174,4 +174,16 @@ class MainController extends Controller
             return response(["type" => "danger", "message" => "Yanıtınız kaydedilirken bir hata oluştu"]);
         }
     }
+
+    public function draft_delete(Request $request){
+        if($request->draft){
+            $draft = SurveyDraft::find($request->draft);
+            if($draft){
+                SurveyDraftAnswer::where('draft', $draft->id)->delete();
+                $draft->delete();
+
+                return response(["type" => "success", "message" => "Taslak Silindi", "status" => true]);
+            }
+        }
+    }
 }

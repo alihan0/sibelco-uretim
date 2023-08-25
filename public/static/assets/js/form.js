@@ -303,7 +303,19 @@ class SurveyDraft {
             const image = $("#imageInput").val();
             console.log("Signature:", image);
         });
-    
+        
+        $("#trashFinalButton").on("click", function(){
+            $(".btn").attr('disabled', true);
+            axios.post('/draft/delete', {draft:draft}).then((res) => {
+                toastr[res.data.type](res.data.message);
+                if(res.data.status){
+                    setInterval(() => {
+                        window.location.reload();
+                    }, 1000);
+                }
+            });
+        });
+
         $("#previewImage").on("click", function () {
             const previewImage = document.getElementById("previewImage");
             previewImage.src = "";
