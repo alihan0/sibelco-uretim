@@ -5,6 +5,7 @@ use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,8 +34,9 @@ Route::controller(MainController::class)->middleware('auth')->group(function(){
     Route::post('/control-confirmation-code', 'control_confirmation_code');
     Route::post('/form/save/anket', 'form_save_anket');
     Route::post('/save/answer', 'save_answer');
+    
 });
-
+Route::post('/upload/save', [UploadController::class, 'save']);
 Route::controller(AuthController::class)->prefix('auth')->group(function(){
     Route::get('/login', 'login')->name('login');
     Route::post('/login', 'do_login');

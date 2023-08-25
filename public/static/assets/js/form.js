@@ -227,8 +227,16 @@ class SurveyDraft {
                             <input class="col form-control" type="file" name="file" id="file">
                             <progress id="uploadProgress" value="0" max="100" style="display:none;"></progress>
                         </div>
-                        <div class="row mb-4">
-                            <img src="" alt="Uploaded Image" id="previewImage" style="max-width: 100px; display: none;">
+                        <div class="container" id="container" style="display:none">
+                            <div class="row mb-4">
+                                <div class="col-6">
+                                    <img src="" class="img-thumbnail" alt="Uploaded Image" id="previewImage" style="max-width: 200px; display: none;">
+                                </div>
+                                <div class="col-6">
+                                    <p class="text-muted">Fotoğrafı silmek için değiştirin ya da üzerine tıklayın.</p>
+                                    <input type="hidden" id="imageInput">
+                                </div>
+                            </div>
                         </div>
                         <hr class="mb-4">
                         <h4 class="modal-title mb-4" style="font-size:.8rem">Sign/Upload the Form</h4>
@@ -274,6 +282,10 @@ class SurveyDraft {
                     const previewImage = document.getElementById("previewImage");
                     previewImage.src = imageUrl;
                     previewImage.style.display = "block";
+
+                    const container = document.getElementById("container");
+                    container.src = imageUrl;
+                    container.style.display = "block";
     
                     const imageInput = document.getElementById("imageInput");
                     imageInput.value = imageUrl;
@@ -288,7 +300,8 @@ class SurveyDraft {
     
         $("#saveFinalFormButton").on("click", function () {
             const signature = signaturePad.toDataURL("image/svg+xml");
-            console.log("Signature:", signature);
+            const image = $("#imageInput").val();
+            console.log("Signature:", image);
         });
     
         $("#previewImage").on("click", function () {
