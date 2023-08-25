@@ -107,5 +107,8 @@
 @endsection
 
 @section('script')
+      <script>
+          $.fn.modal.Constructor.prototype._enforceFocus = function () {}
+      </script>
    <script src="/static/assets/js/form.js"></script>
 @endsection

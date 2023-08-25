@@ -19,7 +19,6 @@ class SurveyDraftAnswer extends Model
         "question",
         "answer",
         "note",
-        "confirm_required",
         "confirm_code",
         "confirmative"
     ];

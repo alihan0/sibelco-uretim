@@ -20,7 +20,6 @@ return new class extends Migration
             $table->integer('question');
             $table->integer('answer');
             $table->string('note')->nullable();
-            $table->integer('confirm_required')->nullable();
             $table->integer('confirm_code')->nullable();
             $table->integer('confirmative')->nullable();
             $table->timestamps();

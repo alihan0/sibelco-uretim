@@ -94,7 +94,7 @@ class MainController extends Controller
     public function send_confirmation_code(Request $request){
         if($request->admin){
             $admin = User::find($request->admin);
-            $soru = FormQuestion::find($request->soru);
+            $soru = FormQuestion::find($request->question);
             if($admin){
                 $characters = '0123456789';
                 $generatecode = '';
@@ -164,7 +164,6 @@ class MainController extends Controller
             "question" => $request->soru,
             "answer" => $request->cevap,
             "note" => $request->note,
-            "confirm_required" => $request->confirm,
             "confirm_code" => $request->code,
             "confirmative" => $request->confirmative
         ]);

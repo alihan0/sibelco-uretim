@@ -74,11 +74,12 @@ class SurveyDraft {
 
             if (response.data.soru) {
                 const soruData = response.data.soru;
-
+                var confirmed = 0;
                 let requiredConfirm = '';
                 let nextButton = '<button type="button" class="btn btn-primary" id="nextButton">Next</button>';
 
                 if (soruData.confirmation) {
+                    confirmed = 1;
                     // Admin verilerini almak için istek at
                     const adminsResponse = await axios.post('/get-admins');
                     const admins = adminsResponse.data;
@@ -92,7 +93,7 @@ class SurveyDraft {
                     requiredConfirm = `<div class="alert alert-warning row" role="alert">
                                         <span class="col-6">This question requires admin confirmation:</span>
                                         <input type="hidden" id="selectAdminSoru" value="${soruData.id}">
-                                        <select class="form-control col-6" id="selectAdmin">${adminOptions}</select>
+                                        <select class="form-control col-6" id="selectAdmin" onchange="Draft.adminSelect()">${adminOptions}</select>
                                     </div>`;
 
                     nextButton = '<button type="button" class="btn btn-primary" id="nextButton" disabled>Next</button>';
@@ -120,15 +121,16 @@ class SurveyDraft {
                                                         <label for="problemNotExists">No Problem</label>
                                                     </div>
                                                     ${requiredConfirm}
+                                                    <input type="hidden" id="code">
                                                 </div>
                                                 <div class="modal-footer d-flex justify-content-between">
-                                                    <input type="text" class="form-control col-8" placeholder="Your Notes" id="notes">
+                                                    <input type="text" class="form-control col-8 note" placeholder="Your Notes" id="notes">
                                                     ${nextButton}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <input type="text" id="code">`;
+                                    `;
 
                 // Modal içeriğini ekle ve göster
                 $('body').append(modalContent);
@@ -137,9 +139,8 @@ class SurveyDraft {
                 // Next butonuna tıklama olayı
                 $('#nextButton').on('click', async () => {
                     const answer = $('input[name="answers"]:checked').val();
-                    const notes = $('#notes').val();
+                    const notes = $('.note').val();
                     const code = $('#code').val();
-                    const confirmed = soruData.confirmation;
                     const confirmative = $('#selectAdmin').val();
 
                     // Soruyu kaydet ve modalı kapat
@@ -158,14 +159,58 @@ class SurveyDraft {
     // CEVABI KAYDET
 
     async saveQuestion(formId, questionNumber, answer, notes, draft, key, code, confirmed, confirmative){
-        questionNumber++;
+        
         await axios.post('/save/answer', {key:key, form:formId, soru:questionNumber, cevap:answer, not:notes, draft:draft, key:key, code:code, confirmed:confirmed, confirmative:confirmative}).then((res) => {
             toastr[res.data.type](res.data.message);
+            questionNumber++;
             this.questionFire(formId, questionNumber, draft, key)
         });
        
     }
-    
+
+
+    async adminSelect() {
+        const admin = $("#selectAdmin").val();
+        const question = $("#selectAdminSoru").val();
+
+        try {
+            const confirmationResponse = await axios.post('/send-confirmation-code', { admin, question });
+            const confirmationStatus = confirmationResponse.data.status;
+
+            if (confirmationStatus) {
+                const { value: code } = await Swal.fire({
+                    title: "Confirmation Code:",
+                    text: "A 6-digit confirmation code has been sent to the selected admin. Please enter the code below.",
+                    input: "text",
+                    confirmButtonText: "Confirm",
+                    showCancelButton: false,
+                    allowOutsideClick: false,
+                    preConfirm: async (code) => {
+                        try {
+                            const response = await axios.post('/control-confirmation-code', { code });
+                            if (!response.data.ok) {
+                                throw new Error(response.statusText);
+                            }
+                            $("#nextButton").attr('disabled', false);
+                            $("#code").val(code)
+                            return response.data;
+                        } catch (error) {
+                            console.log(error);
+                            throw new Error(`Error: ${error}`);
+                        }
+                    },
+                });
+
+                if (code) {
+                    // code kullanılarak yapılacak işlemler
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
+    
+
 
 const Draft = new SurveyDraft;
