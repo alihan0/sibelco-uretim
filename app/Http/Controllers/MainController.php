@@ -93,8 +93,6 @@ class MainController extends Controller
             $admin = User::find($request->admin);
             $soru = FormQuestion::find($request->soru);
             if($admin){
-            
-
                 $characters = '0123456789';
                 $generatecode = '';
 
@@ -109,8 +107,6 @@ class MainController extends Controller
                     $rand = $generatecode;
                     ConfimCode::create(["code" => $rand, "status" => 1]);
                 }
-
-                
                 
                 $message = Auth::user()->name . ", $soru->title için onay istiyor. Onay Kodu: $rand";
                 Sender::sms($admin->phone, $message);
@@ -118,4 +114,19 @@ class MainController extends Controller
         }
         return response(["status" => true]);
     }
+
+    public function control_confirmation_code(Request $request) {
+        if ($request->code) {
+            $find = ConfimCode::where('code', $request->code)->where('status', 1)->first();
+            if ($find) {
+                $find->status = 0;
+                if ($find->save()) {
+                    return response()->json(["statusText" => "İşlem Onaylandı", "ok" => true]);
+                }
+            } else {
+                return response()->json(["statusText" => "Geçersiz Onay Kodu"]);
+            }
+        }
+    }
+    
 }

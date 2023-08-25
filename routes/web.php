@@ -30,6 +30,7 @@ Route::controller(MainController::class)->middleware('auth')->group(function(){
     Route::post('/set-defatult-screen', 'set_defatult_screen');
     Route::post('/get-admins', 'get_admins');
     Route::post('/send-confirmation-code', 'send_confirmation_code');
+    Route::post('/control-confirmation-code', 'control_confirmation_code');
 });
 
 Route::controller(AuthController::class)->prefix('auth')->group(function(){

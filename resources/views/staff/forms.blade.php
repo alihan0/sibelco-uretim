@@ -179,7 +179,21 @@ $(document).on("change", "#selectAdmin", function(){
                 "input" : "text",
                 "confirmButtonText" : "Onayla",
                 "showCancelButton" : false,
-                "allowOutsideClick" : false
+                "allowOutsideClick" : false,
+                preConfirm: (code) => {
+                    return axios.post('/control-confirmation-code', { code })
+                        .then(response => {
+                            if (!response.data.ok) {
+                                throw new Error(response.statusText)
+                            }
+                            $("#nextButton").attr('disabled', false);
+                            return response.data; // Sadece response.data kullanın
+                        })
+                        .catch(error => {
+                            console.log(error)
+                            Swal.showValidationMessage(`Hata: ${error}`);
+                        });
+                },
             }).then((code) => {
                 if(code){
                     
