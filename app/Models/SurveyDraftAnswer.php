@@ -8,4 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class SurveyDraftAnswer extends Model
 {
     use HasFactory;
+
+    protected $table = "survey_draft_answers";
+
+    protected $fillable = [
+        "user",
+        "draft",
+        "key",
+        "question",
+        "answer",
+        "note",
+        "confirm_required",
+        "confirm_code",
+        "confirmative"
+    ];
+
 }

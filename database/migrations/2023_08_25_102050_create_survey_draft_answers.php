@@ -13,6 +13,16 @@ return new class extends Migration
     {
         Schema::create('survey_draft_answers', function (Blueprint $table) {
             $table->id();
+            $table->integer('user');
+            $table->integer('draft');
+            $table->string('key');
+            $table->integer('form');
+            $table->integer('question');
+            $table->integer('answer');
+            $table->string('note')->nullable();
+            $table->integer('confirm_required')->nullable();
+            $table->integer('confirm_code')->nullable();
+            $table->integer('confirmative')->nullable();
             $table->timestamps();
         });
     }
