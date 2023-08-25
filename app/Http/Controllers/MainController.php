@@ -7,6 +7,8 @@ use App\Models\Facility;
 use App\Models\Form;
 use App\Models\FormQuestion;
 use App\Models\Notification;
+use App\Models\Survey;
+use App\Models\SurveyAnswer;
 use App\Models\SurveyDraft;
 use App\Models\SurveyDraftAnswer;
 use App\Models\User;
@@ -185,5 +187,52 @@ class MainController extends Controller
                 return response(["type" => "success", "message" => "Taslak Silindi", "status" => true]);
             }
         }
+    }
+
+
+    public function draft_save(Request $request)
+    {
+        // Draft'ı veritabanından kontrol et
+        $draft = SurveyDraft::find($request->draft);
+
+        if (!$draft) {
+            return response()->json(['error' => 'Draft not found.'], 404);
+        }
+
+        // Yeni bir Survey kaydı oluştur
+        $survey = new Survey([
+            'user' => $draft->user,
+            'key' => $draft->key,
+            'form' => $draft->form,
+            'facility' => $draft->facility,
+            'facility_status' => $draft->facility_status,
+            'signature' => $request->signature,
+            'image' => $request->image,
+            'status' => 1
+        ]);
+        $survey->save();
+
+        // SurveyDraftAnswer'ları SurveyAnswer olarak yeniden oluştur
+        $draftAnswers = SurveyDraftAnswer::where('draft', $request->draft)->get();
+        foreach ($draftAnswers as $draftAnswer) {
+            $surveyAnswer = new SurveyAnswer([
+                "user" => $draftAnswer->user,
+                "survey" => $survey->id,
+                "key" => $draftAnswer->key,
+                "form" => $draftAnswer->form,
+                "question" =>$draftAnswer->question,
+                "answer" => $draftAnswer->answer,
+                "note" => $draftAnswer->note,
+                "confirm_code" => $draftAnswer->confirm_code,
+                "confirmative" => $draftAnswer->confirmative
+            ]);
+            $surveyAnswer->save();
+        }
+
+        // Draft ve DraftAnswerları sil
+        SurveyDraft::where('id', $request->draft)->delete();
+        SurveyDraftAnswer::where('draft', $request->draft)->delete();
+
+        return response()->json(['type'=>'success','message' => 'Form Kaydedildi','status'=>true]);
     }
 }

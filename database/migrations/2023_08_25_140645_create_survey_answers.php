@@ -19,9 +19,9 @@ return new class extends Migration
             $table->integer('form');
             $table->integer('question');
             $table->integer('answer');
-            $table->text('note');
-            $table->string('confirm_code');
-            $table->integer('confirmative');
+            $table->text('note')->nullable();
+            $table->string('confirm_code')->nullable();
+            $table->integer('confirmative')->nullable();
             $table->timestamps();
         });
     }

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('facility');
             $table->integer('facility_status');
             $table->text('signature');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->integer('status');
             $table->timestamps();
         });
