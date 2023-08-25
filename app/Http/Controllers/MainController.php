@@ -80,4 +80,12 @@ class MainController extends Controller
             }
         }
     }
+
+    public function get_admins(Request $request){
+        return response(User::whereIN('type', ['ADMIN','BOTH'])->get());
+    }
+
+    public function send_confirmation_code(Request $request){
+        return response(["status" => true]);
+    }
 }

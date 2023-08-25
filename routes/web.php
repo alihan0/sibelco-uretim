@@ -28,6 +28,8 @@ Route::controller(MainController::class)->middleware('auth')->group(function(){
     Route::post('/switch-screen', 'switch_screen');
     Route::post('/get-questions', 'get_question');
     Route::post('/set-defatult-screen', 'set_defatult_screen');
+    Route::post('/get-admins', 'get_admins');
+    Route::post('/send-confirmation-code', 'send_confirmation_code');
 });
 
 Route::controller(AuthController::class)->prefix('auth')->group(function(){

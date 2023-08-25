@@ -43,63 +43,87 @@
       </div>
       
       
-<input type="text" id="facilities" value="{{$facilities}}">
+<input type="hidden" id="facilities" value="{{$facilities}}">
 @endsection
 
 @section('script')
     <script>
+        $.fn.modal.Constructor.prototype._enforceFocus = function () {}
        function startForm(form_id) {
-    var facilitiesJSON = $("#facilities").val();
-    var options = {}; // Boş bir obje oluştur
-    var facilities = JSON.parse(facilitiesJSON);
+        var facilitiesJSON = $("#facilities").val();
+        var options = {}; // Boş bir obje oluştur
+        var facilities = JSON.parse(facilitiesJSON);
 
 
-    facilities.forEach(element => {
-        options[element.id] = element.title;
-    });
+        facilities.forEach(element => {
+            options[element.id] = element.title;
+        });
 
-    swal.fire({
-        title: 'Hangi Tesis Bakıma Alınıyor?',
-        input: 'select',
-        inputOptions: options, // Doğru seçenekleri obje olarak ekleyin
-        inputAttributes: {
-            className: 'form-control'
-        },
-        showCloseButton: true,
-    }).then((next) =>{
-        if(next.value){
-            var tesis_id = next.value;
+        swal.fire({
+            title: 'Hangi Tesis Bakıma Alınıyor?',
+            input: 'select',
+            inputOptions: options, // Doğru seçenekleri obje olarak ekleyin
+            inputAttributes: {
+                className: 'form-control'
+            },
+            showCloseButton: true,
+        }).then((next) =>{
+            if(next.value){
+                var tesis_id = next.value;
 
-            swal.fire({
-                title : "Tesisin Durumu Nedir?",
-                showConfirmButton: true,
-                showCancelButton: true,
-                showCloseButton: true,
-                cancelButtonText:'<i class="fas fa-power-off"></i> Kapalı',
-                confirmButtonText:'<i class="fas fa-power-off"></i> Açık',
-                confirmButtonColor: "green",
-                cancelButtonColor: "red",
-                focusConfirm: false,
-            }).then((next)=>{
-                var tesis_durum;
-                if(next.value){
-                    tesis_durum = 1;
-                }else{
-                    tesis_durum = 0;
-                }
+                swal.fire({
+                    title : "Tesisin Durumu Nedir?",
+                    showConfirmButton: true,
+                    showCancelButton: true,
+                    showCloseButton: true,
+                    cancelButtonText:'<i class="fas fa-power-off"></i> Kapalı',
+                    confirmButtonText:'<i class="fas fa-power-off"></i> Açık',
+                    confirmButtonColor: "green",
+                    cancelButtonColor: "red",
+                    focusConfirm: false,
+                }).then((next)=>{
+                    var tesis_durum;
+                    if(next.value){
+                        tesis_durum = 1;
+                    }else{
+                        tesis_durum = 0;
+                    }
 
-                soruSor(form_id, 1);
+                    soruSor(form_id, 1);
 
-            });
+                });
 
-        }
-    });
-}
+            }
+        });
+    }
 
 function soruSor(formid, soru){
     axios.post('/get-questions', {formid:formid, soru:soru}).then((res) => {
         if(res.data.soru){
-            $("body").append('<div class="modal fade" id="SoruModal" tabindex="-1" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">'+
+            var requiredConfirm = "";
+            
+            var nextButton = '<button type="button" class="btn btn-primary" id="nextButton">İleri</button>';
+            if(res.data.soru.confirmation){
+                var options = "";
+                axios.post('/get-admins').then((admins) => {
+                    console.log(admins)
+                    admins.data.forEach(element => {
+                        $("#selectAdmin").append('<option value="'+element.id+'">'+element.name+'</option>');
+                    });
+                })
+
+                requiredConfirm = '<div class="alert alert-warning row" role="alert">'+
+                                    '<span class="col-6">Bu soru için yönetici onayı gerekmektedir: </span>'+
+                                    '<input type="hidden" id="selectAdminSoru" value="'+res.data.soru.id+'">'+
+                                    '<select class="form-control col-6" id="selectAdmin">'+
+                                        '<option value="0">Yönetici Seçin...</option>'+
+                                    '</select>'+
+                                '</div>';
+
+
+                nextButton = '<button type="button" class="btn btn-primary" id="nextButton" disabled>İleri</button>';
+            }
+            $("body").append('<div class="modal fade" id="SoruModal" tabindex="-1" data-backdrop="static" data-keyboard="false"  aria-labelledby="exampleModalLabel" aria-hidden="true">'+
                 '<div class="modal-dialog">'+
                     '<div class="modal-content">'+
                     '<div class="modal-header">'+
@@ -113,14 +137,15 @@ function soruSor(formid, soru){
                         '<div class="form-check mb-4">'+
                             '<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" >'+
                             '<label class="form-check-label" for="exampleRadios1">Sorun Var</label>'+
-                            '</div>'+
-                            '<div class="form-check">'+
+                        '</div>'+
+                        '<div class="form-check mb-4">'+
                             '<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" checked>'+
                             '<label class="form-check-label" for="exampleRadios2">Sorun Yok</label>'+
                         '</div>'+
+                        requiredConfirm+
                     '</div>'+
                     '<div class="modal-footer">'+
-                        '<button type="button" class="btn btn-primary" id="nextButton">İleri</button>'+
+                        nextButton+
                     '</div>'+
                     '</div>'+
                 '</div>'+
@@ -130,15 +155,39 @@ function soruSor(formid, soru){
             soruKaydet(formid,soru);
             $("#SoruModal").remove()
             $('.modal-backdrop').remove();
+            
         })
         }else{
             alert("son soruydu")
         }
         
-    })
+    });
+
+
+    
 }
 
-
+$(document).on("change", "#selectAdmin", function(){
+    var admin = $(this).val();
+    var soru = $("#selectAdminSoru").val();
+    
+    axios.post('/send-confirmation-code', {admin:admin, soru:soru}).then((res) => {
+        if(res.data.status){
+            swal.fire({
+                'title' : "Onay Kodu:",
+                "text" : "Seçtiğiniz yöneticiye 6 haneli bir onay kodu gönderildi. Lütfen gönderilen kodu aşağıdaki alana girin.",
+                "input" : "text",
+                "confirmButtonText" : "Onayla",
+                "showCancelButton" : false,
+                "allowOutsideClick" : false
+            }).then((code) => {
+                if(code){
+                    
+                }
+            });
+        }
+    });
+})
 function soruKaydet(formid, soru){
     soru++;
     soruSor(formid, soru)
