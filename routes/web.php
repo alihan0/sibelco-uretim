@@ -32,6 +32,7 @@ Route::controller(MainController::class)->middleware('auth')->group(function(){
     Route::post('/send-confirmation-code', 'send_confirmation_code');
     Route::post('/control-confirmation-code', 'control_confirmation_code');
     Route::post('/form/save/anket', 'form_save_anket');
+    Route::post('/save/answer', 'save_answer');
 });
 
 Route::controller(AuthController::class)->prefix('auth')->group(function(){

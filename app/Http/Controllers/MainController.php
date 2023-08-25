@@ -8,6 +8,7 @@ use App\Models\Form;
 use App\Models\FormQuestion;
 use App\Models\Notification;
 use App\Models\SurveyDraft;
+use App\Models\SurveyDraftAnswer;
 use App\Models\User;
 use App\Sender\Sender;
 use Illuminate\Http\Request;
@@ -147,10 +148,31 @@ class MainController extends Controller
                     "status" => 1
                 ]);
                 if($save){
-                    return response(["key" => $key, 'draf' => $save->id]);
+                    return response()->json(["key" => $key, 'draft' => $save->id]);
                 }
             }
         }
 
+    }
+
+    public function save_answer(Request $request){
+        $save = SurveyDraftAnswer::create([
+            "user" => Auth::user()->id,
+            "draft" => $request->draft,
+            "key" => $request->key,
+            "form" => $request->form,
+            "question" => $request->soru,
+            "answer" => $request->cevap,
+            "note" => $request->note,
+            "confirm_required" => $request->confirm,
+            "confirm_code" => $request->code,
+            "confirmative" => $request->confirmative
+        ]);
+
+        if($save){
+            return response(["type" => "success", "message" => "Yanıtınız kaydedildi"]);
+        }else{
+            return response(["type" => "danger", "message" => "Yanıtınız kaydedilirken bir hata oluştu"]);
+        }
     }
 }

@@ -14,6 +14,7 @@ class SurveyDraftAnswer extends Model
     protected $fillable = [
         "user",
         "draft",
+        "form",
         "key",
         "question",
         "answer",
