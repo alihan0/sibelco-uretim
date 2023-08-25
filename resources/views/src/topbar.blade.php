@@ -40,7 +40,6 @@
             @endif
 
         </div>
-
         <div class="d-flex">
 
             

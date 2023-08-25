@@ -14,10 +14,14 @@ use Illuminate\Support\Facades\Session;
 class MainController extends Controller
 {
     public function index(){
-        if(Session::get('screen') == "admin"){
-            return view('main.dashboard');
+        if(Session::has('screen')){
+            if(Session::get('screen') == "admin"){
+                return view('main.dashboard');
+            }else{
+                return redirect('/staff');
+            }
         }else{
-            return redirect('/staff');
+            return redirect('/auth/logout');
         }
     }
 

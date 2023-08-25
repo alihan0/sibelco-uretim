@@ -29,12 +29,10 @@ class AuthController extends Controller
                 if ($user->type == 'ADMIN') {
                     Session::put('screen', 'admin');
                 } elseif ($user->type == 'USER') {
-                    Session::put('screen', 'BOTH');
-                } elseif ($user->type == 'both') {
-                    Session::put('screen', Auth::user()->default_screen);
+                    Session::put('screen', 'staff');
+                } elseif ($user->type == 'BOTH') {
+                    Session::put('screen', $user->default_screen);
                 }
-
-                
             }else{
                 $this->message = "Kullanıcı adı ya da şifre hatalı!";
             }
