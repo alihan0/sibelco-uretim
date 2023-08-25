@@ -2,8 +2,68 @@
 
 @section('title', 'Formlar')
 
+@section('style')
+<style>
+    
+    input[type="radio"] {
+      display: none;
+    }
+    
+    input[type="radio"]:not(:disabled) ~ label {
+      cursor: pointer;
+    }
+    
+    input[type="radio"]:disabled ~ label {
+      color: hsla(150, 5%, 75%, 1);
+      border-color: hsla(150, 5%, 75%, 1);
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+    
+    label {
+      height: 100%;
+      display: block;
+      background: white;
+      border: 2px solid hsla(150, 75%, 50%, 1);
+      border-radius: 20px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      box-shadow: 0px 3px 10px -2px hsla(150, 5%, 65%, 0.5);
+      position: relative;
+    }
+    
+    input[type="radio"]:checked + label {
+      background: #16a34a;
+      color: hsla(215, 0%, 100%, 1);
+      border-color:#16a34a;
+      box-shadow: 0px 0px 20px #047857
+    }
+    
+    input[type="radio"].sorunvar:checked + label {
+      background: #dc2626;
+      border-color: #dc2626;
+      box-shadow: 0px 0px 20px #991b1b
+    }
+    input[type="radio"].sorunvar + label {
+
+      border-color: #dc2626;
+    }
+    
+    p {
+      font-weight: 900;
+    }
+    
+    @media only screen and (max-width: 700px) {
+      section {
+        flex-direction: column;
+      }
+    }
+    </style>
+@endsection
 
 @section('content')
+
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-flex align-items-center justify-content-between">
@@ -89,7 +149,8 @@
                         tesis_durum = 0;
                     }
 
-                    soruSor(form_id, 1);
+                    var draft = formaBasla(form_id,tesis_id, tesis_durum);
+                    soruSor(form_id, 1, draft.draft, draft.key);
 
                 });
 
@@ -97,7 +158,7 @@
         });
     }
 
-function soruSor(formid, soru){
+function soruSor(formid, soru, draft, key){
     axios.post('/get-questions', {formid:formid, soru:soru}).then((res) => {
         if(res.data.soru){
             var requiredConfirm = "";
@@ -134,17 +195,18 @@ function soruSor(formid, soru){
                     '<div class="modal-body">'+
                         '<span style="font-weight:bold; font-size:1.3rem">'+res.data.soru.title+'</span>'+
                         '<hr>'+
-                        '<div class="form-check mb-4">'+
-                            '<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" >'+
-                            '<label class="form-check-label" for="exampleRadios1">Sorun Var</label>'+
+                        '<div class="form-check mb-4 ">'+
+                            '<input class="sorunvar"  type="radio" name="cevaplar" id="sorunVar"  value="0" >'+
+                            '<label  for="sorunVar">Sorun Var</label>'+
                         '</div>'+
                         '<div class="form-check mb-4">'+
-                            '<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" checked>'+
-                            '<label class="form-check-label" for="exampleRadios2">Sorun Yok</label>'+
+                            '<input type="radio" name="cevaplar" id="sorunYok" value="1" checked>'+
+                            '<label for="sorunYok">Sorun Yok</label>'+
                         '</div>'+
                         requiredConfirm+
                     '</div>'+
-                    '<div class="modal-footer">'+
+                    '<div class="modal-footer d-flex justify-content-between">'+
+                        '<input type="text" class="form-control col-8" placeholder="Notlarınız" id="not">'+
                         nextButton+
                     '</div>'+
                     '</div>'+
@@ -152,7 +214,10 @@ function soruSor(formid, soru){
                 '</div>');
         $("#SoruModal").modal("show");
         $("#nextButton").on("click", function(){
-            soruKaydet(formid,soru);
+            var cevap = $("input[name='cevaplar']:checked").val();
+            var not = $("#not").val();
+            alert(not)
+            soruKaydet(formid,soru, cevap, not, draft, key);
             $("#SoruModal").remove()
             $('.modal-backdrop').remove();
             
@@ -162,8 +227,6 @@ function soruSor(formid, soru){
         }
         
     });
-
-
     
 }
 
@@ -202,9 +265,21 @@ $(document).on("change", "#selectAdmin", function(){
         }
     });
 })
-function soruKaydet(formid, soru){
+function soruKaydet(formid, soru, cevap, not, draft, key){
     soru++;
+    axios.post('/save/answer', {key:key, form:formid, soru:soru, cevap:cevap, not:not, draft:draft, key:key}).then((res) => {
+        toastr[res.data.type](res.data.message);
+    });
     soruSor(formid, soru)
+}
+
+
+function formaBasla(form,tesis,tesis_durum){
+    axios.post('/form/save/anket', {form:form,tesis:tesis,tesis_durum:tesis_durum}).then((res) => {
+        if(res.data.status){
+            return {key : res.data.key, draft:res.data.draft};
+        }
+    })
 }
     </script>
 @endsection

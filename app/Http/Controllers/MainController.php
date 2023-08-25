@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\ConfimCode;
+use App\Models\Facility;
 use App\Models\Form;
 use App\Models\FormQuestion;
 use App\Models\Notification;
+use App\Models\SurveyDraft;
 use App\Models\User;
 use App\Sender\Sender;
 use Illuminate\Http\Request;
@@ -129,4 +131,26 @@ class MainController extends Controller
         }
     }
     
+    public function form_save_anket(Request $request){
+
+        if($request->form && $request->tesis){
+            $form = Form::find($request->form);
+            $tesis = Facility::find($request->tesis);
+            $key = Str::random(12);
+            if($form && $tesis){
+                $save = SurveyDraft::create([
+                    "user" => Auth::user()->id,
+                    "key" => $key,
+                    "form" => $form->id,
+                    "facility" => $tesis->id,
+                    "facility_status" => $request->tesis_durum,
+                    "status" => 1
+                ]);
+                if($save){
+                    return response(["key" => $key, 'draf' => $save->id]);
+                }
+            }
+        }
+
+    }
 }
