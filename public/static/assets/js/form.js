@@ -211,38 +211,96 @@ class SurveyDraft {
         }
     }
 
-    async finalForm(draft, key){
+    async finalForm(draft, key) {
         const finalContent = `<div class="modal fade" id="FinalModal" tabindex="-1" data-backdrop="static" data-keyboard="false" aria-labelledby="FinalModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <div class="modal-content ">
+                <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="FinalModal">Formu Tamamla</h5>
+                        <h5 class="modal-title" id="FinalModal">Complete Form</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                       <h4 class="modal-title mb-4" style="font-size:.8rem">Fotoğraf Çek/Yükle</h4>
+                        <h4 class="modal-title mb-4" style="font-size:.8rem">Take/Upload a Photo</h4>
                         <div class="row form-check mb-4">
                             <input class="col form-control" type="file" name="file" id="file">
+                            <progress id="uploadProgress" value="0" max="100" style="display:none;"></progress>
+                        </div>
+                        <div class="row mb-4">
+                            <img src="" alt="Uploaded Image" id="previewImage" style="max-width: 100px; display: none;">
                         </div>
                         <hr class="mb-4">
-                        <h4 class="modal-title mb-4" style="font-size:.8rem">Formu İmzala/Yükle</h4>
-                        imza alanı
+                        <h4 class="modal-title mb-4" style="font-size:.8rem">Sign/Upload the Form</h4>
+                        <canvas style="border:2px solid #eee; border-radius:8px"></canvas>
                     </div>
                     <div class="modal-footer d-flex justify-content-end">
-                        <button type="button" class="btn btn-danger float-end" id="finalFormButton">Çöp</button>
-                        <button type="button" class="btn btn-warning float-end" id="finalFormButton">Taslak</button>
-                        <button type="button" class="btn btn-success float-end" id="finalFormButton">Bitir</button>
+                        <button type="button" class="btn btn-danger float-end" id="trashFinalButton">Trash</button>
+                        <button type="button" class="btn btn-warning float-end" id="draftFinalFormButton">Draft</button>
+                        <button type="button" class="btn btn-success float-end" id="saveFinalFormButton">Finish</button>
                     </div>
                 </div>
             </div>
-        </div>
-        `;
-
+        </div>`;
+    
         $('body').append(finalContent);
         $('#FinalModal').modal('show');
+    
+        const canvas = document.querySelector("canvas");
+        const signaturePad = new SignaturePad(canvas);
+        signaturePad.minWidth = 1;
+        signaturePad.maxWidth = 1;
+        signaturePad.penColor = "#000";
+        canvas.width = "460";
+    
+        $("#file").on("change", async function () {
+            const file = this.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append("file", file);
+    
+                const progressBar = document.getElementById("uploadProgress");
+                progressBar.style.display = "block";
+    
+                try {
+                    const response = await axios.post("/upload/save", formData, {
+                        onUploadProgress: function (progressEvent) {
+                            const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
+                            progressBar.value = progress;
+                        },
+                    });
+    
+                    const imageUrl = response.data.url;
+                    const previewImage = document.getElementById("previewImage");
+                    previewImage.src = imageUrl;
+                    previewImage.style.display = "block";
+    
+                    const imageInput = document.getElementById("imageInput");
+                    imageInput.value = imageUrl;
+    
+                    progressBar.style.display = "none";
+                } catch (error) {
+                    console.error("Error uploading file:", error);
+                    progressBar.style.display = "none";
+                }
+            }
+        });
+    
+        $("#saveFinalFormButton").on("click", function () {
+            const signature = signaturePad.toDataURL("image/svg+xml");
+            console.log("Signature:", signature);
+        });
+    
+        $("#previewImage").on("click", function () {
+            const previewImage = document.getElementById("previewImage");
+            previewImage.src = "";
+            previewImage.style.display = "none";
+    
+            const imageInput = document.getElementById("imageInput");
+            imageInput.value = "";
+        });
     }
+    
 }
     
 
