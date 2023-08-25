@@ -124,7 +124,7 @@ class SurveyDraft {
                                                     <input type="hidden" id="code">
                                                 </div>
                                                 <div class="modal-footer d-flex justify-content-between">
-                                                    <input type="text" class="form-control col-8 note" placeholder="Your Notes" id="notes">
+                                                    <input type="text" class="form-control col-8 note" placeholder="Notlar" id="notes">
                                                     ${nextButton}
                                                 </div>
                                             </div>
@@ -180,10 +180,10 @@ class SurveyDraft {
 
             if (confirmationStatus) {
                 const { value: code } = await Swal.fire({
-                    title: "Confirmation Code:",
-                    text: "A 6-digit confirmation code has been sent to the selected admin. Please enter the code below.",
+                    title: "Onay kodu:",
+                    text: "Seçilen yöneticiye 6 haneli bir onay kodu gönderildi. Lütfen aşağıdaki kodu girin.",
                     input: "text",
-                    confirmButtonText: "Confirm",
+                    confirmButtonText: "Onayla",
                     showCancelButton: false,
                     allowOutsideClick: false,
                     preConfirm: async (code) => {
