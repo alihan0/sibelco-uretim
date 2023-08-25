@@ -269,24 +269,24 @@
             <div class="form-group row">
                 <label for="align" class="col-md-4 col-form-label">Soru Sırası:</label>
                 <div class="col-md-8">
-                    <input class="form-control" type="text" placeholder="Formun görünen adını girin" id="align">
+                    <input class="form-control" type="text" placeholder="Sorunun kaçıncı sırada sorulacağını girin" id="alignINP">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="title" class="col-md-4 col-form-label">Soru Başlığı:</label>
                 <div class="col-md-8">
-                    <input class="form-control" type="text" placeholder="Formun görünen adını girin" id="title">
+                    <input class="form-control" type="text" placeholder="Sorunun görünen adını girin" id="titleINP">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="question" class="col-md-4 col-form-label">Sorunuz:</label>
                 <div class="col-md-8">
-                    <input class="form-control" type="text" placeholder="Formun görünen adını girin" id="question">
+                    <input class="form-control" type="text" placeholder="Soruyu girin" id="questionINP">
                 </div>
             </div>
             <div class="custom-control custom-checkbox mb-2">
-                <input type="checkbox" class="custom-control-input" id="confirm">
-                <label class="custom-control-label" for="confirm">Bu soru yönetici onayı gerektirsin</label>
+                <input type="checkbox" class="custom-control-input" id="confirmINP" name="confirmINP">
+                <label class="custom-control-label" for="confirmINP">Bu soru yönetici onayı gerektirsin</label>
             </div>
             
         </div>
@@ -334,12 +334,12 @@
         // SORU EKLE
         function addQuestion(){
             var form = $("#form_id").val();
-            var align = $("#align").val();
-            var title = $("#title").val();
-            var question = $("#question").val()
+            var align = $("#alignINP").val();
+            var title = $("#titleINP").val();
+            var question = $("#questionINP").val()
             var confirmed;
 
-            if ($('#confirm').is(':checked')) {
+            if ($('#confirmINP').is(':checked')) {
                 confirmed = 1;
             }else{
                 confirmed = 0;
