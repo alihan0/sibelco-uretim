@@ -40,6 +40,74 @@ class DatabaseSeeder extends Seeder
             "default_screen" => "staff",
             "password" => Hash::make('1234567')
         ]);
-        
+
+        DB::table('facility')->insert([
+            "title" => "Tesis 1"
+        ]);
+        DB::table('facility')->insert([
+            "title" => "Tesis 2"
+        ]);
+        DB::table('facility')->insert([
+            "title" => "Tesis 3"
+        ]);
+
+        DB::table('units')->insert([
+            "facility" => 1,
+            "title" => "Birim 1"
+        ]);
+        DB::table('units')->insert([
+            "facility" => 1,
+            "title" => "Birim 2"
+        ]);
+        DB::table('units')->insert([
+            "facility" => 1,
+            "title" => "Birim 3"
+        ]);
+        DB::table('units')->insert([
+            "facility" => 2,
+            "title" => "Birim 1"
+        ]);
+        DB::table('units')->insert([
+            "facility" => 2,
+            "title" => "Birim 2"
+        ]);
+        DB::table('units')->insert([
+            "facility" => 2,
+            "title" => "Birim 3"
+        ]);
+        DB::table('units')->insert([
+            "facility" => 3,
+            "title" => "Birim 1"
+        ]);
+        DB::table('units')->insert([
+            "facility" => 3,
+            "title" => "Birim 2"
+        ]);
+        DB::table('units')->insert([
+            "facility" => 3,
+            "title" => "Birim 3"
+        ]);
+        DB::table('forms')->insert([
+            "title" => "Test Form 1",
+            "detail" => "Test form detayları",
+            "to_emails" => "alihanozturk364@gmail.com,yottabeetr@gmail.com",
+            "status" => 1
+        ]);
+        DB::table('form_questions')->insert([
+            "form" => 1,
+            "align" => 1,
+            "title" => "Soru Başlığı 1",
+            "confirmation" => 0,
+            "question" => "Soru 1",
+            "status" => 1
+        ]);
+        DB::table('form_questions')->insert([
+            "form" => 1,
+            "align" => 2,
+            "title" => "Soru Başlığı 2",
+            "confirmation" => 0,
+            "question" => "Soru 2",
+            "status" => 1
+        ]);
     }
 }
