@@ -7,6 +7,7 @@ use App\Models\Facility;
 use App\Models\Form;
 use App\Models\FormAttach;
 use App\Models\FormQuestion;
+use App\Models\FormSubQuestion;
 use App\Models\Notification;
 use App\Models\SubformTask;
 use App\Models\Survey;
@@ -257,5 +258,11 @@ class MainController extends Controller
         if($find){
             return response(["subforms" => $find]);
         }
+    }
+
+    public function find_subform_questions(Request $request){
+        $find = FormSubQuestion::where('subform', $request->subformId)->get();
+
+        return response(["questions" => $find]);
     }
 }

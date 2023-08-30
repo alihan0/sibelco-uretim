@@ -38,7 +38,7 @@ Route::controller(MainController::class)->middleware('auth')->group(function(){
     Route::post('/draft/save', 'draft_save');
     Route::post('/find/subform', 'find_subform');
     Route::post('/find-subform-task', 'find_subform_task');
-    
+    Route::post('/find/subform-questions', 'find_subform_questions');
 });
 Route::post('/upload/save', [UploadController::class, 'save']);
 Route::controller(AuthController::class)->prefix('auth')->group(function(){

@@ -5,22 +5,22 @@
 @section('style')
 <style>
     
-    input[type="radio"] {
+    .radio {
       display: none;
     }
     
-    input[type="radio"]:not(:disabled) ~ label {
+    .radio:not(:disabled) ~ .radio-label {
       cursor: pointer;
     }
     
-    input[type="radio"]:disabled ~ label {
+    .radio:disabled ~ .radio-label {
       color: hsla(150, 5%, 75%, 1);
       border-color: hsla(150, 5%, 75%, 1);
       box-shadow: none;
       cursor: not-allowed;
     }
     
-    label {
+    .radio-label {
       height: 100%;
       display: block;
       background: white;
@@ -33,19 +33,19 @@
       position: relative;
     }
     
-    input[type="radio"]:checked + label {
+    .radio:checked + .radio-label {
       background: #16a34a;
       color: hsla(215, 0%, 100%, 1);
       border-color:#16a34a;
       box-shadow: 0px 0px 20px #047857
     }
     
-    input[type="radio"].problemExists:checked + label {
+    .radio.problemExists:checked + .radio-label {
       background: #dc2626;
       border-color: #dc2626;
       box-shadow: 0px 0px 20px #991b1b
     }
-    input[type="radio"].problemExists + label {
+    .radio.problemExists + .radio-label {
 
       border-color: #dc2626;
     }
