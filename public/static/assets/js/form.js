@@ -118,13 +118,16 @@ class SurveyDraft {
                                                     </div>
                                                     <div class="form-check mb-4">
                                                         <input type="radio" name="answers" id="problemNotExists" value="1" checked>
-                                                        <label for="problemNotExists">Sorun Yo</label>
+                                                        <label for="problemNotExists">Sorun Yok</label>
                                                     </div>
                                                     ${requiredConfirm}
                                                     <input type="hidden" id="code">
                                                 </div>
                                                 <div class="modal-footer d-flex justify-content-between">
-                                                    <input type="text" class="form-control col-8 note" placeholder="Notlar" id="notes">
+                                                    <input type="text" class="form-control col-4 note" placeholder="Notlar" id="notes">
+                                                    <input type="file" class="form-control col-4" id="image">
+                                                    <progress id="uploadProgress" value="0" max="100" style="display:none;"></progress>
+                                                    <input type="hidden" id="fileData" name="fileData">
                                                     ${nextButton}
                                                 </div>
                                             </div>
@@ -136,6 +139,40 @@ class SurveyDraft {
                 $('body').append(modalContent);
                 $('#QuestionModal').modal('show');
 
+
+                // Fotoğraf yükleme
+
+                $("#image").on("change", async function () {
+                    const file = this.files[0];
+                    if (file) {
+                        const formData = new FormData();
+                        formData.append("file", file);
+            
+                        const progressBar = document.getElementById("uploadProgress");
+                        progressBar.style.display = "block";
+            
+                        try {
+                            const response = await axios.post("/upload/save", formData, {
+                                onUploadProgress: function (progressEvent) {
+                                    const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
+                                    progressBar.value = progress;
+                                },
+                            });
+            
+                            const imageUrl = response.data.url;
+        
+            
+                            const imageInput = document.getElementById("fileData");
+                            imageInput.value = imageUrl;
+            
+                            progressBar.style.display = "none";
+                        } catch (error) {
+                            console.log("Error uploading file:", error);
+                            progressBar.style.display = "none";
+                        }
+                    }
+                });
+
                
                 // Next butonuna tıklama olayı
                 $('#nextButton').on('click', async () => {
@@ -143,9 +180,10 @@ class SurveyDraft {
                     const answer = $('input[name="answers"]:checked').val();
                     const notes = $("#notes").val();
                     const code = $('#code').val();
+                    const file = $('#fileData').val();
                     const confirmative = $('#selectAdmin').val();
                     // Soruyu kaydet ve modalı kapat
-                    await this.saveQuestion(formId, questionNumber, answer, notes, draft, key, code, confirmed, confirmative);
+                    await this.saveQuestion(formId, questionNumber, answer, notes, draft, key, code, confirmed, confirmative, file);
                     $('#QuestionModal').remove();
                     $('.modal-backdrop').remove();
                 });
@@ -158,9 +196,9 @@ class SurveyDraft {
     }
     
     // CEVABI KAYDET
-    async saveQuestion(formId, questionNumber, answer, notes, draft, key, code, confirmed, confirmative){
+    async saveQuestion(formId, questionNumber, answer, notes, draft, key, code, confirmed, confirmative, file){
         
-        await axios.post('/save/answer', {key:key, form:formId, soru:questionNumber, cevap:answer, not:notes, draft:draft, key:key, code:code, confirmed:confirmed, confirmative:confirmative}).then((res) => {
+        await axios.post('/save/answer', {key:key, form:formId, soru:questionNumber, cevap:answer, not:notes, draft:draft, key:key, code:code, confirmed:confirmed, confirmative:confirmative, file:file}).then((res) => {
             toastr[res.data.type](res.data.message);
             questionNumber++;
             this.questionFire(formId, questionNumber, draft, key)

@@ -167,7 +167,8 @@ class MainController extends Controller
             "answer" => $request->cevap,
             "note" => $request->not,
             "confirm_code" => $request->code,
-            "confirmative" => $request->confirmative
+            "confirmative" => $request->confirmative,
+            "file" => $request->file
         ]);
 
         if($save){
