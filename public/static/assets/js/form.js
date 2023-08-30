@@ -89,12 +89,6 @@ class SurveyDraft {
     
         $(modal).modal('show');
     }
-    
-    
-    
-
-    
-
     // FORM BİLGİSİNİ KAYDET
     async saveForm(form_id, tesis_id, tesis_durum) {
 
@@ -247,7 +241,13 @@ class SurveyDraft {
     
     // CEVABI KAYDET
     async saveQuestion(formId, questionNumber, answer, notes, draft, key, code, confirmed, confirmative, file){
-        
+        if(answer == 0){
+            await axios.post('/find/subform', {formId:formId, questionNumber:questionNumber, key:key}).then((res) => {
+                if(res.data.status){
+                    toastr["warning"]("Alt Form Görevi Eklendi!");
+                }
+            })
+        }
         await axios.post('/save/answer', {key:key, form:formId, soru:questionNumber, cevap:answer, not:notes, draft:draft, key:key, code:code, confirmed:confirmed, confirmative:confirmative, file:file}).then((res) => {
             toastr[res.data.type](res.data.message);
             questionNumber++;

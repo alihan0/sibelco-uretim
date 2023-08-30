@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class SubformTask extends Model
 {
     use HasFactory;
+
+    protected $table = "subform_tasks";
+
+    protected $fillable = [
+        'form_key',
+        'subform',
+        'status',
+    ];
 }
