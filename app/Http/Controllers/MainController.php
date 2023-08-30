@@ -14,6 +14,7 @@ use App\Models\Survey;
 use App\Models\SurveyAnswer;
 use App\Models\SurveyDraft;
 use App\Models\SurveyDraftAnswer;
+use App\Models\SurveyDraftSubformAnswer;
 use App\Models\User;
 use App\Sender\Sender;
 use Illuminate\Http\Request;
@@ -267,6 +268,22 @@ class MainController extends Controller
     }
 
     public function save_subform_answers(Request $request){
+
+        foreach ($request->formData as $question => $answer) {
+            
+            $soru =  str_replace('soru_', '', $question);
+           
+
+            $surveyAnswer = new SurveyDraftSubformAnswer();
+            $surveyAnswer->user = Auth::user()->id;
+            $surveyAnswer->key = $request->key;
+            $surveyAnswer->subform = $request->subformId;
+            $surveyAnswer->question = $soru;
+            $surveyAnswer->answer = $answer;
+            $surveyAnswer->save();
+        }
+    
+
         return response(["status" => true]);
     }
 }

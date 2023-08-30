@@ -354,7 +354,11 @@ class SurveyDraft {
             $(".buttons").addClass('mb-4 border-bottom');
     
             taskButton.addEventListener('click', function () {
-                openSubFormModal(task.subform);
+                var taskstatus = openSubFormModal(task.subform, key);
+
+                if(taskstatus){
+                    this.classList.add('btn', 'btn-warning', 'mr-2', 'mb-4');
+                }
             });
         });
     
@@ -398,7 +402,7 @@ class SurveyDraft {
 }
 
 
-async function openSubFormModal(subformId) {
+async function openSubFormModal(subformId, key) {
     try {
         const response = await axios.post('/find/subform-questions', { subformId });
         const questions = response.data.questions;
@@ -411,13 +415,13 @@ async function openSubFormModal(subformId) {
                     <span>${question.question}</span>
                     <div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="soru_${question.id}" id="evet_${question.id}" value="Sorun Var">
+                            <input class="form-check-input" type="radio" name="soru_${question.id}" id="evet_${question.id}" value="0">
                             <label class="form-check-label" for="evet_${question.id}">
                                 Sorun Var
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="soru_${question.id}" id="hayir_${question.id}" value="Sorun Yok" checked>
+                            <input class="form-check-input" type="radio" name="soru_${question.id}" id="hayir_${question.id}" value="1" checked>
                             <label class="form-check-label" for="hayir_${question.id}">
                                 Sorun Yok
                             </label>
@@ -461,10 +465,12 @@ async function openSubFormModal(subformId) {
                 formData[this.name] = $(this).val();
             });
 
-            axios.post('/save/subform-answers', { formData, subformId }).then((res) => {
+            axios.post('/save/subform-answers', { formData, subformId, key }).then((res) => {
                 //toastr[res.data.type](res.data.message);
                 if(res.data.status){
-                    $("#subformModal").modal('hide');
+                    $("#subformModal").modal('hide').remove();
+                    formData = {};
+                    return true;
                 }
             });
         });
