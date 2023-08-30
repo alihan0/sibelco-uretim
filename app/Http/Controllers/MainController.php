@@ -265,4 +265,8 @@ class MainController extends Controller
 
         return response(["questions" => $find]);
     }
+
+    public function save_subform_answers(Request $request){
+        return response(["status" => true]);
+    }
 }

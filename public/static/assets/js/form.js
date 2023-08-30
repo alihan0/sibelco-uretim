@@ -462,9 +462,9 @@ async function openSubFormModal(subformId) {
             });
 
             axios.post('/save/subform-answers', { formData, subformId }).then((res) => {
-                toastr[res.data.type](res.data.message);
+                //toastr[res.data.type](res.data.message);
                 if(res.data.status){
-                    $(modal).modal('hide');
+                    $("#subformModal").modal('hide');
                 }
             });
         });
