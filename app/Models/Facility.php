@@ -14,4 +14,8 @@ class Facility extends Model
         "title",
         "detail"
     ];
+
+    public function Units(){
+        return $this->hasMany(Unit::class, 'facility', 'id');
+    }
 }

@@ -7,10 +7,12 @@ class SurveyDraft {
         const facilities = JSON.parse(facilitiesJSON);
 
         // Tesisleri seçeneklere dönüştür
-        const options = {};
+        const options = {0:"Tesis Seçin"};
         facilities.forEach(element => {
             options[element.id] = element.title;
         });
+
+        console.log(options)
 
         // İlk SweetAlert: Tesis seçimini yap
         const facilityResult = await swal.fire({
