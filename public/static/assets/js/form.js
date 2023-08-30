@@ -2,32 +2,65 @@ class SurveyDraft {
 
     // FORMU BAŞLAT
     async startForm(form_id) {
-        // JSON verisini al ve işle
-        const facilitiesJSON = $("#facilities").val();
-        const facilities = JSON.parse(facilitiesJSON);
-
-        // Tesisleri seçeneklere dönüştür
-        const options = {0:"Tesis Seçin"};
-        facilities.forEach(element => {
-            options[element.id] = element.title;
+        const facilities = JSON.parse($("#facilities").val());
+    
+        const modalContent = document.createElement('div');
+        const selectElement = document.createElement('select');
+        selectElement.id = 'facilitySelect';
+        selectElement.classList.add('form-control');
+        
+        const defaultOption = document.createElement('option');
+        defaultOption.value = 0;
+        defaultOption.textContent = 'Tesis Seçin...';
+        selectElement.appendChild(defaultOption);
+    
+        facilities.forEach(facility => {
+            const facilityGroup = document.createElement('optgroup');
+            facilityGroup.label = facility.title;
+    
+            facility.units.forEach(unit => {
+                const option = document.createElement('option');
+                option.value = unit.id;
+                option.textContent = unit.title;
+                facilityGroup.appendChild(option);
+            });
+    
+            selectElement.appendChild(facilityGroup);
         });
-
-        console.log(options)
-
-        // İlk SweetAlert: Tesis seçimini yap
-        const facilityResult = await swal.fire({
-            title: 'Hangi Tesis Bakıma Alınıyor?',
-            input: 'select',
-            inputOptions: options,
-            inputAttributes: {
-                className: 'form-control'
-            },
-            showCloseButton: true,
-        });
-
-        if (facilityResult.value) {
-            const tesis_id = facilityResult.value;
-
+    
+        const modal = document.createElement('div');
+        modal.classList.add('modal', 'fade');
+        modal.innerHTML = `
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Hangi Tesis veya Birim Bakıma Alınıyor?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ${selectElement.outerHTML}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="modalConfirm" disabled>Devam Et</button>
+                    </div>
+                </div>
+            </div>
+        `;
+    
+        document.body.appendChild(modal);
+        $('#modalConfirm').on('click', async () => {
+            const selectedValue = $('#facilitySelect').val();
+            if (selectedValue === '0') {
+                return; // Do nothing if the default option is selected
+            }
+            const tesis_id = selectedValue;
+    
+            // İkinci Modal: Tesis durumu seçimi
+            // Burada ikinci bir modal oluşturabilirsiniz.
+    
+            // Diğer işlemleri burada yapabilirsiniz.
             // İkinci SweetAlert: Tesis durumu seçimi
             const statusResult = await swal.fire({
                 title: "Tesisin Durumu Nedir?",
@@ -40,17 +73,31 @@ class SurveyDraft {
                 cancelButtonColor: "red",
                 focusConfirm: false,
             });
-
+    
             const tesis_durum = statusResult.value ? 1 : 0;
-
+    
             // Formu başlat
             const data = await this.saveForm(form_id, tesis_id, tesis_durum);
+            $(modal).modal('hide');
             const question = await this.questionFire(form_id, 1, data.draft, data.key);
-        }
+        });
+    
+        $('#facilitySelect').on('change', () => {
+            const selectedValue = $('#facilitySelect').val();
+            $('#modalConfirm').prop('disabled', selectedValue === '0');
+        });
+    
+        $(modal).modal('show');
     }
+    
+    
+    
+
+    
 
     // FORM BİLGİSİNİ KAYDET
     async saveForm(form_id, tesis_id, tesis_durum) {
+
         try {
            const response = await axios.post('/form/save/anket', {
                 form: form_id,

@@ -103,7 +103,7 @@
       </div>
       
       
-<input type="text" id="facilities" value="{{$facilities}}">
+<input type="hidden" id="facilities" value="{{$facilities}}">
 @endsection
 
 @section('script')
