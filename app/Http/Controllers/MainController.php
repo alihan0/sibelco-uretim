@@ -205,10 +205,9 @@ class MainController extends Controller
             'user' => $draft->user,
             'key' => $draft->key,
             'form' => $draft->form,
-            'facility' => $draft->facility,
-            'facility_status' => $draft->facility_status,
+            'unit' => $draft->facility,
+            'unit_status' => $draft->facility_status,
             'signature' => $request->signature,
-            'image' => $request->image,
             'status' => 1
         ]);
         $survey->save();
