@@ -316,15 +316,6 @@ class SurveyDraft {
                 window.location.reload();
             }, 1000);
         });
-
-        $("#previewImage").on("click", function () {
-            const previewImage = document.getElementById("previewImage");
-            previewImage.src = "";
-            previewImage.style.display = "none";
-    
-            const imageInput = document.getElementById("imageInput");
-            imageInput.value = "";
-        });
     }
     
 }
