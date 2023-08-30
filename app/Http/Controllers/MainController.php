@@ -251,4 +251,11 @@ class MainController extends Controller
             }
         }
     }
+
+    public function find_subform_task(Request $request){
+        $find = SubformTask::where('form_key', $request->key)->where('status', 1)->with('SubForm')->get();
+        if($find){
+            return response(["subforms" => $find]);
+        }
+    }
 }

@@ -37,6 +37,7 @@ Route::controller(MainController::class)->middleware('auth')->group(function(){
     Route::post('/draft/delete', 'draft_delete');
     Route::post('/draft/save', 'draft_save');
     Route::post('/find/subform', 'find_subform');
+    Route::post('/find-subform-task', 'find_subform_task');
     
 });
 Route::post('/upload/save', [UploadController::class, 'save']);

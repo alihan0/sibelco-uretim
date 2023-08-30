@@ -300,17 +300,28 @@ class SurveyDraft {
     }
 
     async finalForm(draft, key) {
+        var tasks = [];
+        var taskline = "";
+        await axios.post('/find-subform-task', { key:key }).then((res) => {
+            res.data.subforms.forEach(element => {
+                tasks.push(element)
+            });
+        });
+
+        
+
         const finalContent = `<div class="modal fade" id="FinalModal" tabindex="-1" data-backdrop="static" data-keyboard="false" aria-labelledby="FinalModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="FinalModal">Complete Form</h5>
+                        <h5 class="modal-title" id="FinalModal">Formu Tamamla</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <h4 class="modal-title mb-4" style="font-size:.8rem">Sign/Upload the Form</h4>
+                    <div class="buttons"></div>
+                        <h4 class="modal-title mb-4" style="font-size:.8rem">Formu İmzala</h4>
                         <canvas style="border:2px solid #eee; border-radius:8px"></canvas>
                     </div>
                     <div class="modal-footer d-flex justify-content-end">
@@ -331,6 +342,24 @@ class SurveyDraft {
         signaturePad.maxWidth = 1;
         signaturePad.penColor = "#000";
         canvas.width = "460";
+
+
+        $('.buttons').append('<h4 class="modal-title mb-4" style="font-size:.8rem">Alt Form Görevleri</h4>');
+        tasks.forEach((task, index) => {
+            const taskButton = document.createElement('button');
+            taskButton.textContent = task.sub_form.title;
+            taskButton.classList.add('btn', 'btn-primary', 'mr-2', 'mb-4');
+            
+            $('.buttons').append(taskButton);
+            $(".buttons").addClass('mb-4 border-bottom');
+    
+            taskButton.addEventListener('click', function () {
+                // Burada seçilen task için gerekli işlemleri yapabilirsiniz.
+                // Örneğin, task ile ilgili özel bir işlemi tetikleyebilirsiniz.
+            });
+        });
+    
+    
     
     
         $("#saveFinalFormButton").on("click", function () {

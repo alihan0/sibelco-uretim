@@ -16,4 +16,8 @@ class SubformTask extends Model
         'subform',
         'status',
     ];
+
+    public function SubForm(){
+        return $this->belongsTo(FormSub::class, 'subform', 'id');
+    }
 }
