@@ -16,8 +16,8 @@ return new class extends Migration
             $table->integer('user');
             $table->string('key');
             $table->integer('form');
-            $table->integer('facility');
-            $table->integer('facility_status');
+            $table->integer('unit');
+            $table->integer('unit_status');
             $table->text('signature');
             $table->integer('status');
             $table->timestamps();
