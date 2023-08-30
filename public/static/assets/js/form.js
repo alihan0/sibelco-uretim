@@ -104,13 +104,13 @@ class SurveyDraft {
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="QuestionModal">Soru: ${soruData.align}</h5>
+                                                    <h5 class="modal-title" id="QuestionModal"># ${soruData.align} - ${soruData.title}</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <span style="font-weight:bold; font-size:1.3rem">${soruData.title}</span>
+                                                    <span style="font-weight:bold; font-size:1.3rem">${soruData.question}</span>
                                                     <hr>
                                                     <div class="form-check mb-4">
                                                         <input class="problemExists" type="radio" name="answers" id="problemExists" value="0">
