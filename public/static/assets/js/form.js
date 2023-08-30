@@ -125,7 +125,7 @@ class SurveyDraft {
                                                 </div>
                                                 <div class="modal-footer d-flex justify-content-between">
                                                     <input type="text" class="form-control col-4 note" placeholder="Notlar" id="notes">
-                                                    <input type="file" class="form-control col-4" id="image">
+                                                    <input type="file" class="btn btn-primary col-4" id="image">
                                                     <progress id="uploadProgress" value="0" max="100" style="display:none;"></progress>
                                                     <input type="hidden" id="fileData" name="fileData">
                                                     ${nextButton}
@@ -145,6 +145,7 @@ class SurveyDraft {
                 $("#image").on("change", async function () {
                     const file = this.files[0];
                     if (file) {
+                        this.className = "btn btn-warning col-4";
                         const formData = new FormData();
                         formData.append("file", file);
             
