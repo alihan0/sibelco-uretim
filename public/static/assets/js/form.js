@@ -261,23 +261,6 @@ class SurveyDraft {
                         </button>
                     </div>
                     <div class="modal-body">
-                        <h4 class="modal-title mb-4" style="font-size:.8rem">Take/Upload a Photo</h4>
-                        <div class="row form-check mb-4">
-                            <input class="col form-control" type="file" name="file" id="file">
-                            <progress id="uploadProgress" value="0" max="100" style="display:none;"></progress>
-                        </div>
-                        <div class="container" id="container" style="display:none">
-                            <div class="row mb-4">
-                                <div class="col-6">
-                                    <img src="" class="img-thumbnail" alt="Uploaded Image" id="previewImage" style="max-width: 200px; display: none;">
-                                </div>
-                                <div class="col-6">
-                                    <p class="text-muted">Fotoğrafı silmek için değiştirin ya da üzerine tıklayın.</p>
-                                    <input type="hidden" id="imageInput">
-                                </div>
-                            </div>
-                        </div>
-                        <hr class="mb-4">
                         <h4 class="modal-title mb-4" style="font-size:.8rem">Sign/Upload the Form</h4>
                         <canvas style="border:2px solid #eee; border-radius:8px"></canvas>
                     </div>
@@ -300,48 +283,11 @@ class SurveyDraft {
         signaturePad.penColor = "#000";
         canvas.width = "460";
     
-        $("#file").on("change", async function () {
-            const file = this.files[0];
-            if (file) {
-                const formData = new FormData();
-                formData.append("file", file);
-    
-                const progressBar = document.getElementById("uploadProgress");
-                progressBar.style.display = "block";
-    
-                try {
-                    const response = await axios.post("/upload/save", formData, {
-                        onUploadProgress: function (progressEvent) {
-                            const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
-                            progressBar.value = progress;
-                        },
-                    });
-    
-                    const imageUrl = response.data.url;
-                    const previewImage = document.getElementById("previewImage");
-                    previewImage.src = imageUrl;
-                    previewImage.style.display = "block";
-
-                    const container = document.getElementById("container");
-                    container.src = imageUrl;
-                    container.style.display = "block";
-    
-                    const imageInput = document.getElementById("imageInput");
-                    imageInput.value = imageUrl;
-    
-                    progressBar.style.display = "none";
-                } catch (error) {
-                    console.error("Error uploading file:", error);
-                    progressBar.style.display = "none";
-                }
-            }
-        });
     
         $("#saveFinalFormButton").on("click", function () {
             const signature = signaturePad.toDataURL("image/svg+xml");
-            const image = $("#imageInput").val();
             
-            axios.post('/draft/save', {draft, signature, image}).then((res) => {
+            axios.post('/draft/save', {draft, signature}).then((res) => {
                 toastr[res.data.type](res.data.message);
                 if(res.data.status){
                     setInterval(() => {
