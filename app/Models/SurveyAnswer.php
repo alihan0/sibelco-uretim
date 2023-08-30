@@ -20,6 +20,7 @@ class SurveyAnswer extends Model
         "answer",
         "note",
         "confirm_code",
-        "confirmative"
+        "confirmative",
+        "file"
     ];
 }

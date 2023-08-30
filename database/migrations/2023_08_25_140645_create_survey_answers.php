@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('note')->nullable();
             $table->string('confirm_code')->nullable();
             $table->integer('confirmative')->nullable();
+            $table->string('file')->nullable();
             $table->timestamps();
         });
     }
