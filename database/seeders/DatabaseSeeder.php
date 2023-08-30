@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         DB::table('users')->insert([
-            'type' => "ADMIN",
+            'type' => "BOTH",
             'name' => "Demo Admin",
             'username' => "admin",
             "email" => "admin@metatige.com",
