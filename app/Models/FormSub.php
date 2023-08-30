@@ -12,7 +12,6 @@ class FormSub extends Model
     protected $table = "form_subforms";
 
     protected $fillable = [
-        'form',
         'title',
         'status'
     ];
