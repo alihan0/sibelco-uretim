@@ -15,7 +15,7 @@
                         <li class="breadcrumb-item"><a href="/">#</a></li>
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Formlar</a></li>
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Form Arşivi</a></li>
-                        <li class="breadcrumb-item active">Son 10 Form</li>
+                        <li class="breadcrumb-item active">Tüm Zamanlar</li>
                     </ol>
                 </div>
 
