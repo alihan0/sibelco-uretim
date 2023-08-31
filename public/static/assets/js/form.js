@@ -397,6 +397,7 @@ class SurveyDraft {
         });
 
         $("#draftFinalFormButton").on("click", function(){
+            $("#draftFinalFormButton").attr("disabled", true);
             $(".btn").attr('disabled', true);
             toastr["success"]("Form taslak olarak kaydedildi.");
             setInterval(() => {
