@@ -1,7 +1,10 @@
 @extends('master')
 
 @section('title', 'Form Detayları')
-
+@section('style')
+    <link rel="stylesheet" href="/static/assets/libs/lightbox2/css/lightbox.css">
+    
+@endsection
 
 @section('content')
         <nav class="page-breadcrumb">
@@ -51,7 +54,14 @@
                         {!! $item->answer == 1 ? '<span class="badge bg-success text-white p-2">Sorun Yok</span>' : '<span class="badge p-2 bg-danger text-white">Sorun Var</span>' !!}  <span class="ml-4 text-muted"><b>Not:</b> {{$item->note}}</span>
                     </td>
                     <td>
-                        {!! ! $item->file ? '-' : '<img src="'.$item->file.'" width="100" />'!!}
+                        
+                        @if ($item->file)
+                        <a class="example-image-link" href="{{$item->file}}" data-lightbox="example-1"><img width="40" class="example-image" src="{{$item->file}}" alt="image-1" /></a>
+                        @else
+                            -
+                        @endif
+
+
                     </td>
                     <td>
                         {!! ! $item->confirm_code ? '-' : 'Kod: '. $item->confirm_code .'<br>'. $item->Confirmative->name !!}
@@ -73,5 +83,11 @@
 @endsection
 
 @section('script')
-    <script></script>
+    <script src="/static/assets/libs/lightbox2/js/lightbox.js"></script>
+    <script>
+        lightbox.option({
+          'resizeDuration': 200,
+          'wrapAround': true
+        })
+    </script>
 @endsection
