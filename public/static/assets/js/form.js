@@ -372,7 +372,7 @@ class SurveyDraft {
     
         $("#saveFinalFormButton").on("click", function () {
             const signature = signaturePad.toDataURL("image/svg+xml");
-            
+            $("#saveFinalFormButton").attr("disabled", true);
             axios.post('/draft/save', {draft, signature}).then((res) => {
                 toastr[res.data.type](res.data.message);
                 if(res.data.status){
