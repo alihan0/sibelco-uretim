@@ -105,4 +105,6 @@ Route::controller(StaffController::class)->prefix('staff')->middleware('auth')->
 
 Route::controller(ArchiveController::class)->prefix('archive')->middleware('auth')->group(function(){
     Route::get('/', 'last10');
+    Route::get('/month', 'month');
+    Route::get('/3month', 'last3Months');
 });

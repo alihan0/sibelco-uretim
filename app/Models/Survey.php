@@ -21,4 +21,19 @@ class Survey extends Model
         "image",
         "status",
     ];
+
+
+    public function Form(){
+        return $this->hasOne(Form::class, 'id', 'form');
+    }
+
+    public function User(){
+        return $this->hasOne(User::class, 'id', 'user');
+    }
+
+    public function Unit(){
+        return $this->hasOne(Unit::class, 'id', 'unit');
+    }
+
+
 }

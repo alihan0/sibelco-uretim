@@ -28,13 +28,13 @@
         <div class="col ">
             <ul class="nav nav-pills  bg-light">
                 <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="/archive">Son 10 Form</a>
+                  <a class="nav-link " aria-current="page" href="/archive">Son 10 Form</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/archive/month">Bu Ay</a>
+                  <a class="nav-link " href="/archive/month">Bu Ay</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/archive/3month">3 Ay</a>
+                  <a class="nav-link active" href="/archive/3month">3 Ay</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/archive/all">Tüm Zamanlar</a>
