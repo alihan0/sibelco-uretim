@@ -24,4 +24,19 @@ class ArchiveController extends Controller
 
         return view('archive.month', ['surveys' => $surveys]);
     }
+
+    public function last3Months() {
+        $currentDate = Carbon::now();
+        $threeMonthsAgo = $currentDate->subMonths(3);
+    
+        $surveys = Survey::where('created_at', '>=', $threeMonthsAgo)
+                         ->orderBy('created_at', 'desc')
+                         ->get();
+    
+        return view('archive.3month', ['surveys' => $surveys]);
+    }
+
+    public function all(){
+        return  view('archive.all', ['surveys' => Survey::all()]);
+    }
 }

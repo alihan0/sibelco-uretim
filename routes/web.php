@@ -107,4 +107,5 @@ Route::controller(ArchiveController::class)->prefix('archive')->middleware('auth
     Route::get('/', 'last10');
     Route::get('/month', 'month');
     Route::get('/3month', 'last3Months');
+    Route::get('/all', 'all');
 });
