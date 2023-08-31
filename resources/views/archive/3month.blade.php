@@ -37,7 +37,7 @@
                   <a class="nav-link active" href="/archive/3month">3 Ay</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/archive/all">Tüm Zamanlar</a>
+                    <a class="nav-link" href="/archive/all">Son 3 Ay</a>
                   </li>
               </ul>
         </div>
