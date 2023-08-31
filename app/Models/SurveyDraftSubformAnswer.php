@@ -18,4 +18,9 @@ class SurveyDraftSubformAnswer extends Model
         'question',
         'answer',
     ];
+
+    public function Question(){
+        return $this->hasOne(FormSubQuestion::class , 'id', 'question');
+    }
+   
 }

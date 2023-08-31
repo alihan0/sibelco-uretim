@@ -39,6 +39,9 @@ class Survey extends Model
         return $this->hasMany(SurveyAnswer::class, 'survey', 'id');
     }
 
-   
+    public function subformAnswers()
+    {
+        return $this->hasMany(SurveyDraftSubformAnswer::class, 'key', 'key');
+    }
 
 }

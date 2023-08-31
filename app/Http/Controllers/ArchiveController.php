@@ -40,7 +40,17 @@ class ArchiveController extends Controller
         return  view('archive.all', ['surveys' => Survey::all()]);
     }
 
-    public function detail($id){
-        return view('archive.detail', ['survey' => Survey::find($id)]);
-    }
+    public function detail($id)
+{
+    $survey = Survey::with('subformAnswers') // Eager loading ilişkiyi ekler
+        ->find($id);
+
+    $groupedSubforms = $survey->subformAnswers
+        ->groupBy('subform'); // Subform sütununa göre gruplar
+
+    return view('archive.detail', [
+        'survey' => $survey,
+        'groupedSubforms' => $groupedSubforms,
+    ]);
+}
 }

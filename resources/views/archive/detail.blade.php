@@ -57,7 +57,7 @@
                 <tbody>
                   @foreach ($survey->Answer as $item)
                   <tr class="text-end">
-                    <td class="text-start">{{$item->Question->title}}</td>
+                    <td class="text-start">{{$item->Question->title ?? "-"}}</td>
                     <td class="d-flex justify-content-between">
                         {!! $item->answer == 1 ? '<span class="badge bg-success text-white p-2">Sorun Yok</span>' : '<span class="badge p-2 bg-danger text-white">Sorun Var</span>' !!}  <span class="ml-4 text-muted"><b>Not:</b> {{$item->note}}</span>
                     </td>
@@ -80,7 +80,39 @@
               </table>
             </div>
         </div>
-        
+        <hr>
+        <div class="row">
+            <div class="col-6">
+                <h4 class="card-title ml-3">İmza:</h4>
+                <hr>
+                <div class="container-fluid d-flex  w-100 " >
+                    
+                    <img src="{{$survey->signature}}" alt="SVG" class="border">
+
+                </div>
+            </div>
+            <div class="col-6">
+                <h4 class="card-title">Alt Formlar:</h4>
+                <hr>
+                <div class="container-fluid w-100 " >
+                  
+                    @foreach ($groupedSubforms as $subformAnswers)
+                    <h4 class="card-title"></h4>
+                    <ul class="list-group mb-4">
+                        @foreach ($subformAnswers as $subformAnswer)
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>{{ $subformAnswer->Question->title }}</span>
+                                <span>{{ $subformAnswer->answer }}</span>
+                            </li>
+                        @endforeach
+                    </ul>
+                @endforeach
+
+                      
+                    
+                </div>
+            </div>
+        </div>
         <div class="container-fluid w-100">
           <a href="javascript:;" class="btn btn-outline-primary float-end mt-4"><i data-feather="printer" class="me-2 icon-md"></i>Print</a>
         </div>
