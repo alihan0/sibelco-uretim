@@ -23,4 +23,8 @@ class SurveyAnswer extends Model
         "confirmative",
         "file"
     ];
+
+    public function Question(){
+        return $this->belongsTo(FormQuestion::class,  'question', 'id');
+    }
 }

@@ -37,7 +37,6 @@
               <table class="table table-bordered">
                 <thead>
                   <tr>
-                      <th>#</th>
                       <th>Soru</th>
                       <th class="text-end">Yanıt</th>
                       <th class="text-end">Fotoğraf</th>
@@ -45,41 +44,26 @@
                     </tr>
                 </thead>
                 <tbody>
+                  @foreach ($survey->Answer as $item)
                   <tr class="text-end">
-                    <td class="text-start">1</td>
-                    <td class="text-start">PSD to html conversion</td>
-                    <td>02</td>
-                    <td>$55</td>
-                    <td>$110</td>
+                    <td class="text-start">{{$item->Question->title}}</td>
+                    <td>
+                        {!! $item->answer == 1 ? '<span class="badge bg-success text-white p-2">Sorun Yok</span>' : '<span class="badge p-2 bg-danger text-white">Sorun Yok</span>' !!}
+                    </td>
+                    <td>
+                        {{! $item->file ? '-' : '<img src="'.asset('storage/'.$item->image).'" width="100" />'}}
+                    </td>
+                    <td>
+                        {{ ! $item->confirm_code ? '-' : $item->confirm_code }}
+                    </td>
                   </tr>
-                  <tr class="text-end">
-                    <td class="text-start">2</td>
-                    <td class="text-start">Package design</td>
-                    <td>08</td>
-                    <td>$34</td>
-                    <td>$272</td>
-                  </tr>
-                  <tr class="text-end">
-                    <td class="text-start">3</td>
-                    <td class="text-start">Html template development</td>
-                    <td>03</td>
-                    <td>$500</td>
-                    <td>$1500</td>
-                  </tr>
-                  <tr class="text-end">
-                    <td class="text-start">4</td>
-                    <td class="text-start">Redesign</td>
-                    <td>01</td>
-                    <td>$30</td>
-                    <td>$30</td>
-                  </tr>
+                  @endforeach
                 </tbody>
               </table>
             </div>
         </div>
         
         <div class="container-fluid w-100">
-          <a href="javascript:;" class="btn btn-primary float-end mt-4 ms-2"><i data-feather="send" class="me-3 icon-md"></i>Send Invoice</a>
           <a href="javascript:;" class="btn btn-outline-primary float-end mt-4"><i data-feather="printer" class="me-2 icon-md"></i>Print</a>
         </div>
       </div>
