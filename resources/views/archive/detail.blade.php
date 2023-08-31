@@ -51,10 +51,10 @@
                         {!! $item->answer == 1 ? '<span class="badge bg-success text-white p-2">Sorun Yok</span>' : '<span class="badge p-2 bg-danger text-white">Sorun Var</span>' !!}  <span class="ml-4 text-muted"><b>Not:</b> {{$item->note}}</span>
                     </td>
                     <td>
-                        {{! $item->file ? '-' : '<img src="'.asset('storage/'.$item->image).'" width="100" />'}}
+                        {!! ! $item->file ? '-' : '<img src="'.$item->file.'" width="100" />'!!}
                     </td>
                     <td>
-                        {{ ! $item->confirm_code ? '-' : $item->confirm_code }}
+                        {!! ! $item->confirm_code ? '-' : 'Kod: '. $item->confirm_code .'<br>'. $item->Confirmative->name !!}
                     </td>
                   </tr>
                   @endforeach

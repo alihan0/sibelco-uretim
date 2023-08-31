@@ -27,4 +27,8 @@ class SurveyAnswer extends Model
     public function Question(){
         return $this->belongsTo(FormQuestion::class,  'question', 'id');
     }
+
+    public function Confirmative(){
+        return $this->belongsTo(User::class,   "confirmative");
+    }
 }

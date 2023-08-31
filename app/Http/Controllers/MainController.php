@@ -233,6 +233,7 @@ class MainController extends Controller
                 "key" => $draftAnswer->key,
                 "form" => $draftAnswer->form,
                 "question" =>$draftAnswer->question,
+                "file" => $draftAnswer->file,
                 "answer" => $draftAnswer->answer,
                 "note" => $draftAnswer->note,
                 "confirm_code" => $draftAnswer->confirm_code,
