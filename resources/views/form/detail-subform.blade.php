@@ -158,19 +158,19 @@
             <div class="form-group row">
                 <label for="align" class="col-md-4 col-form-label">Soru Sırası:</label>
                 <div class="col-md-8">
-                    <input class="form-control" type="text" placeholder="Formun görünen adını girin" id="align">
+                    <input class="form-control" type="text" placeholder="Formun görünen adını girin" id="alignAdd">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="title" class="col-md-4 col-form-label">Soru Başlığı:</label>
                 <div class="col-md-8">
-                    <input class="form-control" type="text" placeholder="Formun görünen adını girin" id="title">
+                    <input class="form-control" type="text" placeholder="Formun görünen adını girin" id="titleAdd">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="question" class="col-md-4 col-form-label">Sorunuz:</label>
                 <div class="col-md-8">
-                    <input class="form-control" type="text" placeholder="Formun görünen adını girin" id="question">
+                    <input class="form-control" type="text" placeholder="Formun görünen adını girin" id="questionAdd">
                 </div>
             </div>
             
@@ -220,9 +220,9 @@
         // SORU EKLE
         function addQuestion(){
             var form = $("#form_id").val();
-            var align = $("#align").val();
-            var title = $("#title").val();
-            var question = $("#question").val()
+            var align = $("#alignAdd").val();
+            var title = $("#titleAdd").val();
+            var question = $("#questionAdd").val()
             
 
             axios.post('/form/add/subform/question', {form:form, align:align, title:title, question:question}).then((res) => {
