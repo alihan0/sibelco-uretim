@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\FormController;
@@ -100,4 +101,8 @@ Route::controller(StaffController::class)->prefix('staff')->middleware('auth')->
     });
 
     Route::get('forms', 'forms');
+});
+
+Route::controller(ArchiveController::class)->prefix('archive')->middleware('auth')->group(function(){
+    Route::get('/', 'last10');
 });
