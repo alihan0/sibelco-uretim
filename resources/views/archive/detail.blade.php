@@ -17,7 +17,7 @@
 
 <div class="row">
   <div class="col-md-12">
-    <div class="card">
+    <div class="card"  id="print">
       <div class="card-body">
         <div class="container-fluid d-flex justify-content-between">
           <div class="col-lg-3 ps-0">
@@ -113,21 +113,43 @@
                 </div>
             </div>
         </div>
-        <div class="container-fluid w-100">
-          <a href="javascript:;" class="btn btn-outline-primary float-end mt-4"><i data-feather="printer" class="me-2 icon-md"></i>Print</a>
-        </div>
+        
       </div>
+      
     </div>
+    
   </div>
+</div>
+<div class="row mb-4">
+    <div class="col">
+        <div class="container-fluid w-100">
+            <a href="javascript:;" id="printBtn" class="btn btn-outline-primary float-end mt-4"><i data-feather="printer" class="me-2 icon-md"></i>Print</a>
+          </div>
+    </div>
 </div>
 @endsection
 
 @section('script')
     <script src="/static/assets/libs/lightbox2/js/lightbox.js"></script>
+    <script src="/static/assets/js/pages/jQuery.print.min.js"></script>
     <script>
         lightbox.option({
           'resizeDuration': 200,
           'wrapAround': true
-        })
+        });
+
+        
+
+$("#printBtn").on("click", function(){
+    $("#print").print({
+        addGlobalStyles : true,
+        stylesheet : null,
+        rejectWindow : true,
+        noPrintSelector : ".no-print",
+        iframe : true,
+        append : null,
+        prepend : null
+    });
+})
     </script>
 @endsection
