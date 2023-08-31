@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\ConfimCode;
 use App\Models\Facility;
 use App\Models\Form;
+use App\Models\FormAttach;
 use App\Models\FormQuestion;
+use App\Models\FormSubQuestion;
 use App\Models\Notification;
+use App\Models\SubformTask;
 use App\Models\Survey;
 use App\Models\SurveyAnswer;
 use App\Models\SurveyDraft;
 use App\Models\SurveyDraftAnswer;
+use App\Models\SurveyDraftSubformAnswer;
 use App\Models\User;
 use App\Sender\Sender;
 use Illuminate\Http\Request;
@@ -234,5 +238,52 @@ class MainController extends Controller
         SurveyDraftAnswer::where('draft', $request->draft)->delete();
 
         return response()->json(['type'=>'success','message' => 'Form Kaydedildi','status'=>true]);
+    }
+
+    public function find_subform(Request $request){
+        $find = FormAttach::where('form', $request->formId)->where('question', $request->questionNumber)->first();
+        if($find){
+            $task = SubformTask::create([
+                "form_key" => $request->key,
+                "subform" => $find->subform,
+                "status" => 1
+            ]);
+            if($task){
+                return response(["status" => true]);
+            }
+        }
+    }
+
+    public function find_subform_task(Request $request){
+        $find = SubformTask::where('form_key', $request->key)->where('status', 1)->with('SubForm')->get();
+        if($find){
+            return response(["subforms" => $find]);
+        }
+    }
+
+    public function find_subform_questions(Request $request){
+        $find = FormSubQuestion::where('subform', $request->subformId)->get();
+
+        return response(["questions" => $find]);
+    }
+
+    public function save_subform_answers(Request $request){
+
+        foreach ($request->formData as $question => $answer) {
+            
+            $soru =  str_replace('soru_', '', $question);
+           
+
+            $surveyAnswer = new SurveyDraftSubformAnswer();
+            $surveyAnswer->user = Auth::user()->id;
+            $surveyAnswer->key = $request->key;
+            $surveyAnswer->subform = $request->subformId;
+            $surveyAnswer->question = $soru;
+            $surveyAnswer->answer = $answer;
+            $surveyAnswer->save();
+        }
+    
+
+        return response(["status" => true]);
     }
 }

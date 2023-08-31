@@ -89,12 +89,6 @@ class SurveyDraft {
     
         $(modal).modal('show');
     }
-    
-    
-    
-
-    
-
     // FORM BİLGİSİNİ KAYDET
     async saveForm(form_id, tesis_id, tesis_durum) {
 
@@ -162,12 +156,12 @@ class SurveyDraft {
                                                     <span style="font-weight:bold; font-size:1.3rem">${soruData.question}</span>
                                                     <hr>
                                                     <div class="form-check mb-4">
-                                                        <input class="problemExists" type="radio" name="answers" id="problemExists" value="0">
-                                                        <label for="problemExists">Sorun Var</label>
+                                                        <input class="problemExists radio" type="radio" name="answers" id="problemExists" value="0">
+                                                        <label class="radio-label" for="problemExists">Sorun Var</label>
                                                     </div>
                                                     <div class="form-check mb-4">
-                                                        <input type="radio" name="answers" id="problemNotExists" value="1" checked>
-                                                        <label for="problemNotExists">Sorun Yok</label>
+                                                        <input class="radio" type="radio" name="answers" id="problemNotExists" value="1" checked>
+                                                        <label class="radio-label" for="problemNotExists">Sorun Yok</label>
                                                     </div>
                                                     ${requiredConfirm}
                                                     <input type="hidden" id="code">
@@ -247,7 +241,13 @@ class SurveyDraft {
     
     // CEVABI KAYDET
     async saveQuestion(formId, questionNumber, answer, notes, draft, key, code, confirmed, confirmative, file){
-        
+        if(answer == 0){
+            await axios.post('/find/subform', {formId:formId, questionNumber:questionNumber, key:key}).then((res) => {
+                if(res.data.status){
+                    toastr["warning"]("Alt Form Görevi Eklendi!");
+                }
+            })
+        }
         await axios.post('/save/answer', {key:key, form:formId, soru:questionNumber, cevap:answer, not:notes, draft:draft, key:key, code:code, confirmed:confirmed, confirmative:confirmative, file:file}).then((res) => {
             toastr[res.data.type](res.data.message);
             questionNumber++;
@@ -300,17 +300,28 @@ class SurveyDraft {
     }
 
     async finalForm(draft, key) {
+        var tasks = [];
+        var taskline = "";
+        await axios.post('/find-subform-task', { key:key }).then((res) => {
+            res.data.subforms.forEach(element => {
+                tasks.push(element)
+            });
+        });
+
+        
+
         const finalContent = `<div class="modal fade" id="FinalModal" tabindex="-1" data-backdrop="static" data-keyboard="false" aria-labelledby="FinalModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="FinalModal">Complete Form</h5>
+                        <h5 class="modal-title" id="FinalModal">Formu Tamamla</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <h4 class="modal-title mb-4" style="font-size:.8rem">Sign/Upload the Form</h4>
+                    <div class="buttons"></div>
+                        <h4 class="modal-title mb-4" style="font-size:.8rem">Formu İmzala</h4>
                         <canvas style="border:2px solid #eee; border-radius:8px"></canvas>
                     </div>
                     <div class="modal-footer d-flex justify-content-end">
@@ -331,6 +342,27 @@ class SurveyDraft {
         signaturePad.maxWidth = 1;
         signaturePad.penColor = "#000";
         canvas.width = "460";
+
+
+        $('.buttons').append('<h4 class="modal-title mb-4" style="font-size:.8rem">Alt Form Görevleri</h4>');
+        tasks.forEach((task, index) => {
+            const taskButton = document.createElement('button');
+            taskButton.textContent = task.sub_form.title;
+            taskButton.classList.add('btn', 'btn-primary', 'mr-2', 'mb-4');
+            
+            $('.buttons').append(taskButton);
+            $(".buttons").addClass('mb-4 border-bottom');
+    
+            taskButton.addEventListener('click', function () {
+                var taskstatus = openSubFormModal(task.subform, key);
+
+                if(taskstatus){
+                    this.classList.add('btn', 'btn-warning', 'mr-2', 'mb-4');
+                }
+            });
+        });
+    
+    
     
     
         $("#saveFinalFormButton").on("click", function () {
@@ -368,7 +400,85 @@ class SurveyDraft {
     }
     
 }
-    
+
+
+async function openSubFormModal(subformId, key) {
+    try {
+        const response = await axios.post('/find/subform-questions', { subformId });
+        const questions = response.data.questions;
+
+        let questionListHTML = '';
+
+        questions.forEach(question => {
+            questionListHTML += `
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>${question.question}</span>
+                    <div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="soru_${question.id}" id="evet_${question.id}" value="0">
+                            <label class="form-check-label" for="evet_${question.id}">
+                                Sorun Var
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="soru_${question.id}" id="hayir_${question.id}" value="1" checked>
+                            <label class="form-check-label" for="hayir_${question.id}">
+                                Sorun Yok
+                            </label>
+                        </div>
+                    </div>
+                </li>`;
+        });
+
+        const modal = `
+            <div class="modal fade bg-dark" id="subformModal" tabindex="-1" data-backdrop="static" data-keyboard="false" aria-labelledby="FinalModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Alt Form</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <ul class="list-group">
+                                <form id="subFormCevaplar">
+                                    ${questionListHTML}
+                                </form>
+                            </ul>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-end">
+                            <button type="button" class="btn btn-success float-end" id="saveSubform">Kaydet</button>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+
+        // Modalı görünür hale getir
+        $(modal).modal('show');
+
+        // Kaydet butonuna click dinleyicisi ekle
+        $(document).on("click", "#saveSubform", function() {
+            var formData = {};
+
+            $(".form-check-input").each(function() {
+                formData[this.name] = $(this).val();
+            });
+
+            axios.post('/save/subform-answers', { formData, subformId, key }).then((res) => {
+                //toastr[res.data.type](res.data.message);
+                if(res.data.status){
+                    $("#subformModal").modal('hide').remove();
+                    formData = {};
+                    return true;
+                }
+            });
+        });
+    } catch (error) {
+        console.error('Bir hata oluştu:', error);
+    }
+}
+
 
 
 const Draft = new SurveyDraft;
