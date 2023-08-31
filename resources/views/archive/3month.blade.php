@@ -15,7 +15,7 @@
                         <li class="breadcrumb-item"><a href="/">#</a></li>
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Formlar</a></li>
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Form Arşivi</a></li>
-                        <li class="breadcrumb-item active">Son 10 Form</li>
+                        <li class="breadcrumb-item active">Son 3 Ay</li>
                     </ol>
                 </div>
 
@@ -37,7 +37,7 @@
                   <a class="nav-link active" href="/archive/3month">3 Ay</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/archive/all">Son 3 Ay</a>
+                    <a class="nav-link" href="/archive/all">Tüm Zamanlar</a>
                   </li>
               </ul>
         </div>
