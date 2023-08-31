@@ -35,5 +35,8 @@ class Survey extends Model
         return $this->hasOne(Unit::class, 'id', 'unit');
     }
 
+    public function Answer(){
+        return $this->hasMany(SurveyAnswer::class, 'survey', 'id');
+    }
 
 }
