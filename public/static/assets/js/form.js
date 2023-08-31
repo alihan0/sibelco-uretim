@@ -361,7 +361,10 @@ class SurveyDraft {
         $(".taskButton").on("click", function(){
             const subformId = $(this).attr('id');
             //alert(subformId);
-            openSubFormModal(subformId, key);
+            var result = openSubFormModal(subformId, key);
+            if(result){
+                $(this).addClass('btn-success').attr('disabled',true);
+            }
         })
     
     
