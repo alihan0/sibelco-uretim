@@ -384,6 +384,7 @@ class SurveyDraft {
         });
         
         $("#trashFinalButton").on("click", function(){
+            $("#trashFinalButton").attr("disabled", true);
             $(".btn").attr('disabled', true);
             axios.post('/draft/delete', {draft:draft}).then((res) => {
                 toastr[res.data.type](res.data.message);
