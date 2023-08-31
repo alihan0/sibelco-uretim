@@ -25,6 +25,13 @@
             <h5 class="mt-3 mb-2 text-muted">Formu Dolduran:</h5>
             
             <p>{{$survey->User->name}} <br><span class="text-muted">({{'@'.$survey->User->username}})</span><br> {{$survey->User->email}}<br> {{$survey->User->phone}}</p>
+
+        
+
+            <h6 class="mb-0 mt-3 text-end fw-normal mb-2"><span class="text-muted">Tesis :</span> {{$survey->Unit->Facility->title}}  <span class="text-muted ml-4">Birim :</span> {{$survey->Unit->title}}</h6>
+
+            <h6 class="mb-0 mt-3 text-end fw-normal mb-2"><span class="text-muted">Durum :</span>  {!! $survey->unit_status == 1 ? '<span class="badge bg-success text-white p-2">Açık</span>' : '<span class="badge ml-2 bg-danger text-white">Kapalı</span>' !!}  </h6>
+            
           </div>
           <div class="col-lg-3 pe-0">
             <h4 class="fw-bold text-uppercase text-end mt-4 mb-2">Form</h4>
@@ -33,6 +40,7 @@
             
             <h6 class="mb-0 mt-3 text-end fw-normal mb-2"><span class="text-muted">Oluşturulma Tarihi :</span></h6>
             <h6 class="text-end fw-normal">  {{$survey->created_at}}</h6>
+
           </div>
         </div>
         <div class="container-fluid mt-5 d-flex justify-content-center w-100">
