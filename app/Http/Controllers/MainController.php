@@ -284,6 +284,6 @@ class MainController extends Controller
         }
     
 
-        return response(["status" => true]);
+        return response(["status" => true, 'anser' => $surveyAnswer]);
     }
 }

@@ -348,19 +348,21 @@ class SurveyDraft {
         tasks.forEach((task, index) => {
             const taskButton = document.createElement('button');
             taskButton.textContent = task.sub_form.title;
-            taskButton.classList.add('btn', 'btn-primary', 'mr-2', 'mb-4');
-            
+            taskButton.classList.add('btn', 'btn-primary', 'mr-2', 'mb-4', 'taskButton');
+            taskButton.setAttribute("id", task.subform);
+
+
             $('.buttons').append(taskButton);
             $(".buttons").addClass('mb-4 border-bottom');
     
-            taskButton.addEventListener('click', function () {
-                var taskstatus = openSubFormModal(task.subform, key);
-
-                if(taskstatus){
-                    this.classList.add('btn', 'btn-warning', 'mr-2', 'mb-4');
-                }
-            });
         });
+
+
+        $(".taskButton").on("click", function(){
+            const subformId = $(this).attr('id');
+            //alert(subformId);
+            openSubFormModal(subformId, key);
+        })
     
     
     
@@ -400,7 +402,7 @@ class SurveyDraft {
     }
     
 }
-
+ 
 
 async function openSubFormModal(subformId, key) {
     try {
@@ -415,13 +417,13 @@ async function openSubFormModal(subformId, key) {
                     <span>${question.question}</span>
                     <div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="soru_${question.id}" id="evet_${question.id}" value="0">
+                            <input class="form-check-input" type="radio" name="soru_${question.id}" data-question-id="${question.id}" id="evet_${question.id}" value="0">
                             <label class="form-check-label" for="evet_${question.id}">
                                 Sorun Var
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="soru_${question.id}" id="hayir_${question.id}" value="1" checked>
+                            <input class="form-check-input" type="radio" name="soru_${question.id}" data-question-id="${question.id}" id="hayir_${question.id}" value="1" checked>
                             <label class="form-check-label" for="hayir_${question.id}">
                                 Sorun Yok
                             </label>
@@ -457,17 +459,26 @@ async function openSubFormModal(subformId, key) {
         // Modalı görünür hale getir
         $(modal).modal('show');
 
-        // Kaydet butonuna click dinleyicisi ekle
+        // Modal kapatıldığında dinleyiciyi temizle
+        $("#subformModal").on("hidden.bs.modal", function () {
+            $(document).off("click", "#saveSubform");
+        });
+
+        // Kaydet butonuna click dinleyicisi ekle (DİKKAT: await kullanılmadan)
         $(document).on("click", "#saveSubform", function() {
+            $(document).off("click", "#saveSubform"); // Dinleyiciyi kaldır
+
             var formData = {};
 
-            $(".form-check-input").each(function() {
-                formData[this.name] = $(this).val();
+            $(".form-check-input:checked").each(function() {
+                var questionId = $(this).data("question-id");
+                formData[`soru_${questionId}`] = $(this).val();
+
+                console.log("soru_"+questionId +" : "+ $(this).val())
             });
 
             axios.post('/save/subform-answers', { formData, subformId, key }).then((res) => {
-                //toastr[res.data.type](res.data.message);
-                if(res.data.status){
+                if (res.data.status) {
                     $("#subformModal").modal('hide').remove();
                     formData = {};
                     return true;
@@ -478,6 +489,8 @@ async function openSubFormModal(subformId, key) {
         console.error('Bir hata oluştu:', error);
     }
 }
+
+
 
 
 
