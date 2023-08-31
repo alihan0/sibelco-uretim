@@ -198,6 +198,7 @@ class MainController extends Controller
     public function draft_save(Request $request)
     {
         // Draft'ı veritabanından kontrol et
+        $sendEmail = false;
         $draft = SurveyDraft::find($request->draft);
 
         if (!$draft) {
@@ -219,6 +220,11 @@ class MainController extends Controller
         // SurveyDraftAnswer'ları SurveyAnswer olarak yeniden oluştur
         $draftAnswers = SurveyDraftAnswer::where('draft', $request->draft)->get();
         foreach ($draftAnswers as $draftAnswer) {
+
+            if($draftAnswer->note){
+                $sendEmail = true;
+            }
+
             $surveyAnswer = new SurveyAnswer([
                 "user" => $draftAnswer->user,
                 "survey" => $survey->id,
@@ -233,10 +239,26 @@ class MainController extends Controller
             $surveyAnswer->save();
         }
 
+
         // Draft ve DraftAnswerları sil
         SurveyDraft::where('id', $request->draft)->delete();
         SurveyDraftAnswer::where('draft', $request->draft)->delete();
 
+        if($sendEmail){
+            $form = Form::find($draft->form);
+
+            $emailList = explode(',', $form->to_emails);
+
+
+            foreach ($emailList as $email) {
+                $data = [
+                    "form" => $form->title,
+                    "key" => $draft->key,
+                    "name" => Auth::user()->name,
+                ];
+                Sender::email($email, "Form Dolduruldu", $data, "emails.survey-created");
+            }
+        }
         return response()->json(['type'=>'success','message' => 'Form Kaydedildi','status'=>true]);
     }
 
