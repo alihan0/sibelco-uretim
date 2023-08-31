@@ -220,7 +220,7 @@ class SurveyDraft {
                
                 // Next butonuna tıklama olayı
                 $('#nextButton').on('click', async () => {
-            
+                    $('#nextButton').attr("disabled", true);
                     const answer = $('input[name="answers"]:checked').val();
                     const notes = $("#notes").val();
                     const code = $('#code').val();
