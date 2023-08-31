@@ -38,7 +38,7 @@
                 <thead>
                   <tr>
                       <th>Soru</th>
-                      <th class="text-end">Yanıt</th>
+                      <th class="">Yanıt</th>
                       <th class="text-end">Fotoğraf</th>
                       <th class="text-end">Onay</th>
                     </tr>
@@ -47,8 +47,8 @@
                   @foreach ($survey->Answer as $item)
                   <tr class="text-end">
                     <td class="text-start">{{$item->Question->title}}</td>
-                    <td>
-                        {!! $item->answer == 1 ? '<span class="badge bg-success text-white p-2">Sorun Yok</span>' : '<span class="badge p-2 bg-danger text-white">Sorun Yok</span>' !!}
+                    <td class="d-flex justify-content-between">
+                        {!! $item->answer == 1 ? '<span class="badge bg-success text-white p-2">Sorun Yok</span>' : '<span class="badge p-2 bg-danger text-white">Sorun Var</span>' !!}  <span class="ml-4 text-muted"><b>Not:</b> {{$item->note}}</span>
                     </td>
                     <td>
                         {{! $item->file ? '-' : '<img src="'.asset('storage/'.$item->image).'" width="100" />'}}

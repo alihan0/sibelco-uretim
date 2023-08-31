@@ -155,6 +155,8 @@ class MainController extends Controller
                 ]);
                 if($save){
                     return response()->json(["key" => $key, 'draft' => $save->id]);
+                }else{
+                    return response()->json(["error" => "Taslak oluşturulamadı!"]);
                 }
             }
         }
