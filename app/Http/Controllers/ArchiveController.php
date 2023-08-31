@@ -39,4 +39,8 @@ class ArchiveController extends Controller
     public function all(){
         return  view('archive.all', ['surveys' => Survey::all()]);
     }
+
+    public function detail($id){
+        return view('archive.detail', ['survey' => Survey::find($id)]);
+    }
 }
