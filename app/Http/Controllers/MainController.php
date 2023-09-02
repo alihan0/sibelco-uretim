@@ -74,6 +74,8 @@ class MainController extends Controller
                     // Sadece değerleri alın
                     $weekfinal = array_values($weekfinal);
 
+
+
                 $data = [
                     "total_form" => Form::all()->count(),
                     "total_subform" => FormSub::all()->count(),
@@ -82,6 +84,7 @@ class MainController extends Controller
                     "total_user" => User::all()->count(),
                     "total_facility" => Facility::all()->count(),
                     "total_unit" => Unit::all()->count(),
+                    "last_surveys" => Survey::take(10)->orderBy('id','desc')->get(),
                     "m" => $finalData,
                     "h" => $weekfinal,
                     "d" => $days

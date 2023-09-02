@@ -175,18 +175,14 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="header-title mb-4">Son 10 Form</h4>
-
+                
                 <ul class="list-group">
-                    <li class="list-group-item">An item</li>
-                    <li class="list-group-item">A second item</li>
-                    <li class="list-group-item">A third item</li>
-                    <li class="list-group-item">A fourth item</li>
-                    <li class="list-group-item">And a fifth one</li>
-                    <li class="list-group-item">An item</li>
-                    <li class="list-group-item">A second item</li>
-                    <li class="list-group-item">A third item</li>
-                    <li class="list-group-item">A fourth item</li>
-                    <li class="list-group-item">And a fifth one</li>
+                    @foreach ($data["last_surveys"] as $item)
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span><b>{{$item->id}}</b></span>
+                            <span>{{$item->Form->title}}</span>
+                        </li>
+                    @endforeach
                   </ul>
             </div>
         </div>
