@@ -34,37 +34,58 @@ class MainController extends Controller
 
 
                 $months = range(1, 12);
-$finalData = [];
+                $finalData = [];
 
-// Veritabanından verileri çekin
-$monthlyData = Survey::select(
-        DB::raw('MONTH(created_at) as month'),
-        DB::raw('COUNT(*) as count')
-    )
-    ->groupBy('month')
-    ->get()
-    ->pluck('count', 'month')
-    ->toArray();
+                // Veritabanından verileri çekin
+                $monthlyData = Survey::select(
+                        DB::raw('MONTH(created_at) as month'),
+                        DB::raw('COUNT(*) as count')
+                    )
+                    ->groupBy('month')
+                    ->get()
+                    ->pluck('count', 'month')
+                    ->toArray();
 
-// Eksik ayları doldurun
-foreach ($months as $month) {
-    $finalData[] = isset($monthlyData[$month]) ? $monthlyData[$month] : 0;
-}
-ksort($finalData);
+                // Eksik ayları doldurun
+                foreach ($months as $month) {
+                    $finalData[] = isset($monthlyData[$month]) ? $monthlyData[$month] : 0;
+                }
+                ksort($finalData);
 
-// Sadece değerleri alın
-$finalData = array_values($finalData);
+                // Sadece değerleri alın
+                $finalData = array_values($finalData);
 
-$data = [
-    "total_form" => Form::all()->count(),
-    "total_subform" => FormSub::all()->count(),
-    "total_survey" => Survey::all()->count(),
-    "total_question" => FormQuestion::all()->count(),
-    "total_user" => User::all()->count(),
-    "total_facility" => Facility::all()->count(),
-    "total_unit" => Unit::all()->count(),
-    "m" => $finalData
-];
+
+                $days = range(0, 6);
+                $weekfinal = [];
+                $weekData = DB::table('surveys')
+                    ->select(DB::raw('DAYNAME(created_at) as gun'), DB::raw('COUNT(*) as count'))
+                    ->groupBy(DB::raw('DAYNAME(created_at)'))
+                    ->orderByRaw('DAYOFWEEK(created_at)')
+                    ->get();
+
+
+    
+                    foreach ($days as $day) {
+                        $weekfinal[] = isset($weekData[$day]) ? $weekData[$day] : 0;
+                    }
+                    ksort($weekfinal);
+    
+                    // Sadece değerleri alın
+                    $weekfinal = array_values($weekfinal);
+
+                $data = [
+                    "total_form" => Form::all()->count(),
+                    "total_subform" => FormSub::all()->count(),
+                    "total_survey" => Survey::all()->count(),
+                    "total_question" => FormQuestion::all()->count(),
+                    "total_user" => User::all()->count(),
+                    "total_facility" => Facility::all()->count(),
+                    "total_unit" => Unit::all()->count(),
+                    "m" => $finalData,
+                    "h" => $weekfinal,
+                    "d" => $days
+                ];
 
 
                 return view('main.dashboard', ["data" => $data]);

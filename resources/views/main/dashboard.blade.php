@@ -9,7 +9,6 @@
 @endsection
 
 @section('content')
-
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-flex align-items-center justify-content-between">
@@ -289,7 +288,14 @@
     var options2 = {
           series: [{
           name: 'Series 1',
-          data: [20,30,20,40,50],
+          data: [
+            
+            {{$data["h"][1]->count}},
+            {{$data["h"][2]->count}},
+            {{$data["h"][3]->count}},
+            {{$data["h"][4]->count}},
+            {{$data["h"][5]->count}},
+          ],
         }],
           chart: {
           height: 350,
