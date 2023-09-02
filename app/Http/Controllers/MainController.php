@@ -7,6 +7,7 @@ use App\Models\Facility;
 use App\Models\Form;
 use App\Models\FormAttach;
 use App\Models\FormQuestion;
+use App\Models\FormSub;
 use App\Models\FormSubQuestion;
 use App\Models\Notification;
 use App\Models\SubformTask;
@@ -29,7 +30,18 @@ class MainController extends Controller
     public function index(){
         if(Session::has('screen')){
             if(Session::get('screen') == "admin"){
-                return view('main.dashboard');
+
+                $data = [
+                    "total_form" => Form::all()->count(),
+                    "total_subform" => FormSub::all()->count(),
+                    "total_survey" => Survey::all()->count(),
+                    "total_question" => FormQuestion::all()->count(),
+                    "total_user" => User::all()->count(),
+                    "total_facility" => Facility::all()->count(),
+                    "total_unit" => Unit::all()->count(),
+                ];
+
+                return view('main.dashboard', ["data" => $data]);
             }else{
                 return redirect('/staff');
             }

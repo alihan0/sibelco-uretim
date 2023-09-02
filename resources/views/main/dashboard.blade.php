@@ -24,7 +24,6 @@
         </div>
     </div>
 </div>
-
 <div class="row">
     <div class="col-4">
         <div class="card">
@@ -39,7 +38,7 @@
                         </span>
                     </div>
                 </div>
-                <h4 class="m-0 align-self-center">1,753</h4>
+                <h4 class="m-0 align-self-center">{{$data["total_form"]}}</h4>
                 
             </div>
         </div>
@@ -57,7 +56,7 @@
                         </span>
                     </div>
                 </div>
-                <h4 class="m-0 align-self-center">1,753</h4>
+                <h4 class="m-0 align-self-center">{{$data["total_subform"]}}</h4>
                 
             </div>
         </div>
@@ -75,7 +74,7 @@
                         </span>
                     </div>
                 </div>
-                <h4 class="m-0 align-self-center">1,753</h4>
+                <h4 class="m-0 align-self-center">{{$data["total_survey"]}}</h4>
                 
             </div>
         </div>
@@ -93,7 +92,7 @@
                         </span>
                     </div>
                 </div>
-                <h4 class="m-0 align-self-center">1,753</h4>
+                <h4 class="m-0 align-self-center">{{$data["total_question"]}}</h4>
                 
             </div>
         </div>
@@ -111,7 +110,7 @@
                         </span>
                     </div>
                 </div>
-                <h4 class="m-0 align-self-center">1,753</h4>
+                <h4 class="m-0 align-self-center">{{$data["total_user"]}}</h4>
                 
             </div>
         </div>
@@ -129,7 +128,7 @@
                         </span>
                     </div>
                 </div>
-                <h4 class="m-0 align-self-center">1,753</h4>
+                <h4 class="m-0 align-self-center">{{$data["total_facility"]}}</h4>
                 
             </div>
         </div>
@@ -147,7 +146,7 @@
                         </span>
                     </div>
                 </div>
-                <h4 class="m-0 align-self-center">1,753</h4>
+                <h4 class="m-0 align-self-center">{{$data["total_unit"]}}</h4>
                 
             </div>
         </div>
