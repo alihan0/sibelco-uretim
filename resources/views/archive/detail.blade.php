@@ -1,6 +1,8 @@
 @extends('master')
 
-@section('title', 'Form Detayları')
+@section('title')
+Form : {{$survey->key}}
+@endsection
 @section('style')
     <link rel="stylesheet" href="/static/assets/libs/lightbox2/css/lightbox.css">
     
