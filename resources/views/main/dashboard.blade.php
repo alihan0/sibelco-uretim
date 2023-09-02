@@ -9,6 +9,7 @@
 @endsection
 
 @section('content')
+
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-flex align-items-center justify-content-between">
@@ -275,7 +276,7 @@
     var options = {
           series: [{
           name: 'Series 1',
-          data: [80, 50, 30, 40, 100, 20, 2,3,54,6,3,2],
+          data: [{{$data["m"][0]}}, {{$data["m"][1]}}, {{$data["m"][2]}}, {{$data["m"][3]}}, {{$data["m"][4]}}, {{$data["m"][5]}}, {{$data["m"][6]}},{{$data["m"][7]}},{{$data["m"][8]}},{{$data["m"][9]}},{{$data["m"][10]}},{{$data["m"][11]}}],
         }],
           chart: {
           height: 350,
@@ -295,7 +296,7 @@
           type: 'radar',
         },
         xaxis: {
-          categories: ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma']
+          categories: ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar']
         }
     };
 

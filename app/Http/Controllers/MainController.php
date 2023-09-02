@@ -21,6 +21,7 @@ use App\Models\User;
 use App\Sender\Sender;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -31,15 +32,40 @@ class MainController extends Controller
         if(Session::has('screen')){
             if(Session::get('screen') == "admin"){
 
-                $data = [
-                    "total_form" => Form::all()->count(),
-                    "total_subform" => FormSub::all()->count(),
-                    "total_survey" => Survey::all()->count(),
-                    "total_question" => FormQuestion::all()->count(),
-                    "total_user" => User::all()->count(),
-                    "total_facility" => Facility::all()->count(),
-                    "total_unit" => Unit::all()->count(),
-                ];
+
+                $months = range(1, 12);
+$finalData = [];
+
+// Veritabanından verileri çekin
+$monthlyData = Survey::select(
+        DB::raw('MONTH(created_at) as month'),
+        DB::raw('COUNT(*) as count')
+    )
+    ->groupBy('month')
+    ->get()
+    ->pluck('count', 'month')
+    ->toArray();
+
+// Eksik ayları doldurun
+foreach ($months as $month) {
+    $finalData[] = isset($monthlyData[$month]) ? $monthlyData[$month] : 0;
+}
+ksort($finalData);
+
+// Sadece değerleri alın
+$finalData = array_values($finalData);
+
+$data = [
+    "total_form" => Form::all()->count(),
+    "total_subform" => FormSub::all()->count(),
+    "total_survey" => Survey::all()->count(),
+    "total_question" => FormQuestion::all()->count(),
+    "total_user" => User::all()->count(),
+    "total_facility" => Facility::all()->count(),
+    "total_unit" => Unit::all()->count(),
+    "m" => $finalData
+];
+
 
                 return view('main.dashboard', ["data" => $data]);
             }else{
