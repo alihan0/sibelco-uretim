@@ -63,15 +63,10 @@
                                 @endif
                             </td>
                             <td>
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                                      İşlem
-                                    </button>
-                                    <div class="dropdown-menu">
-                                      <a class="dropdown-item" href="/form/detail/{{$form->id}}">Görüntüle</a>
-                                      <a class="dropdown-item" href="/form/edit/{{$form->id}}">Düzenle</a>
-                                    </div>
-                                  </div>
+                                <a href="/form/detail/{{$form->id}}" class="btn btn-primary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                
                             </td>
                         </tr>
                         @endforeach
