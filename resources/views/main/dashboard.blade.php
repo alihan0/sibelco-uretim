@@ -2,6 +2,11 @@
 
 @section('title', 'Pano')
 
+@section('style')
+<link href="/static/assets/libs/slick-slider/slick/slick.css" rel="stylesheet" type="text/css" />
+<link href="/static/assets/libs/slick-slider/slick/slick-theme.css" rel="stylesheet" type="text/css" />
+
+@endsection
 
 @section('content')
 <div class="row">
@@ -166,11 +171,107 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-xl-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-4">Son 10 Form</h4>
+
+                <ul class="list-group">
+                    <li class="list-group-item">An item</li>
+                    <li class="list-group-item">A second item</li>
+                    <li class="list-group-item">A third item</li>
+                    <li class="list-group-item">A fourth item</li>
+                    <li class="list-group-item">And a fifth one</li>
+                    <li class="list-group-item">An item</li>
+                    <li class="list-group-item">A second item</li>
+                    <li class="list-group-item">A third item</li>
+                    <li class="list-group-item">A fourth item</li>
+                    <li class="list-group-item">And a fifth one</li>
+                  </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-4">Son 10 Bildirim</h4>
+
+                <ul class="list-group">
+                    <li class="list-group-item">An item</li>
+                    <li class="list-group-item">A second item</li>
+                    <li class="list-group-item">A third item</li>
+                    <li class="list-group-item">A fourth item</li>
+                    <li class="list-group-item">And a fifth one</li>
+                    <li class="list-group-item">An item</li>
+                    <li class="list-group-item">A second item</li>
+                    <li class="list-group-item">A third item</li>
+                    <li class="list-group-item">A fourth item</li>
+                    <li class="list-group-item">And a fifth one</li>
+                  </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title mb-4">Sorun Yaşanan Birimler</h4>
+        
+                        <div dir="ltr">
+                            
+                            <div class="slick-slider slider-for hori-timeline-desc pt-0">
+                                <div>
+                                    <p class="font-size-16">Daily Earning</p>
+                                    <h4 class="mb-4">$ 1,452</h4>
+                                    <div id="earning-day-chart" class="apex-charts"></div>
+                                </div>
+                                <div>
+                                    <p class="font-size-16">Weekly Earning</p>
+                                    <h4 class="mb-4">$ 6,536</h4>
+                                    <div id="earning-weekly-chart" class="apex-charts"></div>
+                                </div>
+                                <div>
+                                    <p class="font-size-16">Monthly Earning</p>
+                                    <h4 class="mb-4">$ 24,562</h4>
+                                    <div id="earning-monthly-chart" class="apex-charts"></div>
+                                </div>
+                                <div>
+                                    <p class="font-size-16">Yearly Earning</p>
+                                    <h4 class="mb-4">$ 2,82,562</h4>
+                                    <div id="earning-yearly-chart" class="apex-charts"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">Son Onay Kodları</h4>
+        
+                        <ul class="list-group">
+                            <li class="list-group-item">An item</li>
+                            <li class="list-group-item">A second item</li>
+                            <li class="list-group-item">A third item</li>
+                            <li class="list-group-item">A fourth item</li>
+                            <li class="list-group-item">And a fifth one</li>
+                          </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('script')
 <script src="/static/assets/libs/apexcharts/apexcharts.min.js"></script>
-
+<script src="/static/assets/libs/slick-slider/slick/slick.min.js"></script>
 <script>
     var options = {
           series: [{
@@ -204,6 +305,18 @@
 
     var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
     chart2.render();
+
+
+    $(".slider-fo21r").slick({slidesToShow:1,slidesToScroll:1,arrows:!1,autoplay:!0})
+    $(".slider-n12av").slick({slidesToShow:3,slidesToScroll:1,asNavFor:".slider-for",arrows:!1,dots:!1,centerMode:!0,focusOnSelect:!0,responsive:[{breakpoint:1680,settings:{slidesToShow:2,slidesToScroll:2}},{breakpoint:1440,settings:{slidesToShow:1,slidesToScroll:1}},{breakpoint:1200,settings:{slidesToShow:3,slidesToScroll:3}},{breakpoint:600,settings:{slidesToShow:2,slidesToScroll:2}},{breakpoint:480,settings:{slidesToShow:1,slidesToScroll:1}}]})
+
+
+    $('.slider-for').slick({
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  autoplay: true,
+  autoplaySpeed: 2000,
+});
 
 </script>
 
