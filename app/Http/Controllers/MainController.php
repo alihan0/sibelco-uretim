@@ -15,6 +15,7 @@ use App\Models\SurveyAnswer;
 use App\Models\SurveyDraft;
 use App\Models\SurveyDraftAnswer;
 use App\Models\SurveyDraftSubformAnswer;
+use App\Models\Unit;
 use App\Models\User;
 use App\Sender\Sender;
 use Illuminate\Http\Request;
@@ -142,7 +143,7 @@ class MainController extends Controller
 
         if($request->form && $request->tesis){
             $form = Form::find($request->form);
-            $tesis = Facility::find($request->tesis);
+            $tesis = Unit::find($request->tesis);
             $key = Str::random(12);
             if($form && $tesis){
                 $save = SurveyDraft::create([
@@ -158,7 +159,11 @@ class MainController extends Controller
                 }else{
                     return response()->json(["error" => "Taslak oluşturulamadı!"]);
                 }
+            }else{
+                return response()->json(["error" => "Hata! 1"]);
             }
+        }else{
+            return response()->json(["error" => "Hata! 2"]);
         }
 
     }
