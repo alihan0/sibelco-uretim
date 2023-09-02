@@ -246,11 +246,11 @@
                         <h4 class="header-title">Son Onay Kodları</h4>
         
                         <ul class="list-group">
-                            <li class="list-group-item">An item</li>
-                            <li class="list-group-item">A second item</li>
-                            <li class="list-group-item">A third item</li>
-                            <li class="list-group-item">A fourth item</li>
-                            <li class="list-group-item">And a fifth one</li>
+                            @foreach ($data["confirms"] as $item)
+                                <li class="list-group-item d-flex justify-content-center">
+                                    <span><b>{{$item->code}}</b></span>
+                                </li>
+                            @endforeach
                           </ul>
                     </div>
                 </div>
