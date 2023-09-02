@@ -74,7 +74,9 @@ class MainController extends Controller
                     // Sadece değerleri alın
                     $weekfinal = array_values($weekfinal);
 
-
+                    
+                    $answers = SurveyAnswer::where('answer', 0)->groupBy('form')->get();
+                
 
                 $data = [
                     "total_form" => Form::all()->count(),
@@ -86,10 +88,11 @@ class MainController extends Controller
                     "total_unit" => Unit::all()->count(),
                     "last_surveys" => Survey::take(10)->orderBy('id','desc')->get(),
                     "last_notifications" => Notification::take(10)->orderBy('id','desc')->get(),
-                    "confirms" => ConfimCode::take(5)->orderBy('id','desc')->get(),
+                    "confirms" => ConfimCode::take(4)->orderBy('id','desc')->get(),
                     "m" => $finalData,
                     "h" => $weekfinal,
-                    "d" => $days
+                    "d" => $days,
+                    "units" => $answers //[0]->Survey->Unit->title
                 ];
 
 

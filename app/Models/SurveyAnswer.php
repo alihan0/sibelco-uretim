@@ -31,4 +31,8 @@ class SurveyAnswer extends Model
     public function Confirmative(){
         return $this->belongsTo(User::class,   "confirmative");
     }
+
+    public function Survey(){
+        return $this->belongsTo(Survey::class, 'survey', 'id');
+    }
 }
