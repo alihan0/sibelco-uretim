@@ -138,7 +138,7 @@
                     </div>
                     <div class="avatar-xs">
                         <span class="avatar-title rounded-circle bg-primary">
-                            <i class="fas fa-column"></i>
+                            <i class="fas fa-layer-group"></i>
                         </span>
                     </div>
                 </div>
