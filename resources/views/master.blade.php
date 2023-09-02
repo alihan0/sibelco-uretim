@@ -172,6 +172,8 @@
         <script src="/static/assets/js/pages/datatables.init.js"></script>
         <script src="/static/assets/libs/sweetalert2/sweetalert2.min.js"></script>
 
+        
+
         @yield('script')
         <script>
             $("#setDefaultScreenButton").on("click", function(){

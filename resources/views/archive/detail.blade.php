@@ -143,15 +143,7 @@ Form : {{$survey->key}}
         
 
 $("#printBtn").on("click", function(){
-    $("#print").print({
-        addGlobalStyles : true,
-        stylesheet : null,
-        rejectWindow : true,
-        noPrintSelector : ".no-print",
-        iframe : true,
-        append : null,
-        prepend : null
-    });
+    $("#print").print();
 })
     </script>
 @endsection
