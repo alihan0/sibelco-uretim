@@ -193,16 +193,12 @@
                 <h4 class="header-title mb-4">Son 10 Bildirim</h4>
 
                 <ul class="list-group">
-                    <li class="list-group-item">An item</li>
-                    <li class="list-group-item">A second item</li>
-                    <li class="list-group-item">A third item</li>
-                    <li class="list-group-item">A fourth item</li>
-                    <li class="list-group-item">And a fifth one</li>
-                    <li class="list-group-item">An item</li>
-                    <li class="list-group-item">A second item</li>
-                    <li class="list-group-item">A third item</li>
-                    <li class="list-group-item">A fourth item</li>
-                    <li class="list-group-item">And a fifth one</li>
+                    @foreach ($data["last_notifications"] as $item)
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span><b>{{$item->title}}</b></span>
+                            <span>{{substr($item->message, 0, 30)}}</span>
+                        </li>
+                    @endforeach
                   </ul>
             </div>
         </div>

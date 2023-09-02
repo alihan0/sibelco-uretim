@@ -85,6 +85,7 @@ class MainController extends Controller
                     "total_facility" => Facility::all()->count(),
                     "total_unit" => Unit::all()->count(),
                     "last_surveys" => Survey::take(10)->orderBy('id','desc')->get(),
+                    "last_notifications" => Notification::take(10)->orderBy('id','desc')->get(),
                     "m" => $finalData,
                     "h" => $weekfinal,
                     "d" => $days
